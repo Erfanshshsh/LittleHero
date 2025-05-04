@@ -7,7 +7,7 @@ public class DragObject : MonoBehaviour
     private Camera mainCamera;
     public Transform box; // The box you want to check against
     public bool isInBox = false; // Variable to indicate if the object is in the box
-
+    public Common.ArrangingGameItemType arrangingGameItemType;
     void Start()
     {
         mainCamera = Camera.main;
