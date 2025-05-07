@@ -56,7 +56,11 @@ public class MaleCharacter : MonoBehaviour
         
         if (other.gameObject.CompareTag("SchoolZone"))
         {
-            SceneManager.LoadScene("FreeMode");
+            UIManager.Instance.ShowChooseGameView();
+            GetComponent<movement>().enabled = false;
+            GetComponent<Animator>().SetBool("MoveFWD", false);
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
 
         }
     }

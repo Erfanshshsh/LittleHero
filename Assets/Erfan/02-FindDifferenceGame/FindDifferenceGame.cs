@@ -5,4 +5,5 @@ using UnityEngine;
 public class FindDifferenceGame : ScriptableObject
 {
     public FindDifferenceImage prefab;
+    public Color levelRightSpriteColor = Color.yellow;
 }

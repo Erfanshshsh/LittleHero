@@ -7,8 +7,8 @@ public class DifferenceItem : MonoBehaviour
 {
     public BoxCollider2D collider;
     public BoxCollider2D secondCollider;
-    public GameObject rightSprite;
-    public GameObject secondRightSprite;
+    public SpriteRenderer rightSprite;
+    public SpriteRenderer secondRightSprite;
 
 
     [Button]
@@ -26,9 +26,10 @@ public class DifferenceItem : MonoBehaviour
         secondRightSprite.transform.position = secondCollider.gameObject.transform.position;
         rightSprite.gameObject.SetActive(true);
         secondRightSprite.gameObject.SetActive(true);
-        // await UniTask.Delay(2000);
-        // rightSprite.gameObject.SetActive(false);
-        // secondRightSprite.gameObject.SetActive(false);
+
+        var color = GameManager.Instance.findDifferenceGame.levelRightSpriteColor;
+        rightSprite.color = color;
+        secondRightSprite.color = color;
 
     }
 
