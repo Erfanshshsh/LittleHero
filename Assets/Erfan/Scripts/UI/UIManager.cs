@@ -12,6 +12,7 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] private InGameView inGameView;
     [SerializeField] private WonView wonView;
     [SerializeField] private HowToPlayView howToPlayView;
+    [SerializeField] private SelectNumberView selectNumberView;
 
     [NonSerialized] public InGameView inGameViewInstance;
 
@@ -65,6 +66,12 @@ public class UIManager : Singleton<UIManager>
     {
         var howToPlay = (HowToPlayView)ShowWindow(howToPlayView, ViewPriority.High);
         howToPlay.Initialize(text);
+    }
+    
+    public SelectNumberView ShowSelectNumber()
+    {
+        var viewIns = (SelectNumberView)ShowWindow(selectNumberView, ViewPriority.High);
+        return viewIns;
     }
     public void CloseAllWindows()
     {

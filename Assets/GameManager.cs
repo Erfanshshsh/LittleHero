@@ -8,6 +8,7 @@ public class GameManager : Singleton<GameManager>
     public ArrangingGameItems arrangingGameItems;
     public FindDifferenceGame findDifferenceGame;
     public FindSimilarConfig findSimilarConfig;
+    public FindPathConfig findPathConfig;
     
     public Common.Location currentLocation;
     public Common.Difficulty currentDifficulty;
