@@ -1,17 +1,19 @@
-﻿using System.Collections.Generic;
-using Cysharp.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
 using Joyixir.GameManager.UI;
 using Sirenix.OdinInspector;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 
 public class UIManager : Singleton<UIManager>
 {
     [SerializeField] private List<View> windowInstances;
     [SerializeField] private ChooseGameView chooseGameView;
+    [SerializeField] private InGameView inGameView;
+    [SerializeField] private WonView wonView;
+    [SerializeField] private HowToPlayView howToPlayView;
 
+    [NonSerialized] public InGameView inGameViewInstance;
 
     [PropertyTooltip("3 Different Layers for UI Views")] [FoldoutGroup("UI Containers")]
     public List<GameObject> containers;
@@ -40,11 +42,30 @@ public class UIManager : Singleton<UIManager>
     [Button]
     public void ShowChooseGameView()
     {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
         var gamesView = (ChooseGameView)ShowWindow(chooseGameView, ViewPriority.High);
-        gamesView.Initialize();
     }
 
-
+    
+    public void ShowInGameView()
+    {
+        inGameViewInstance = (InGameView)ShowWindow(inGameView, ViewPriority.High);
+    }
+    public void ShowYouWon()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        ShowWindow(wonView, ViewPriority.High);
+    }
+    
+    
+    
+    public void ShowHowToPlay(string text)
+    {
+        var howToPlay = (HowToPlayView)ShowWindow(howToPlayView, ViewPriority.High);
+        howToPlay.Initialize(text);
+    }
     public void CloseAllWindows()
     {
         for (var i = 0; i < windowInstances.Count; i++)
@@ -66,4 +87,7 @@ public class UIManager : Singleton<UIManager>
         Medium = 1,
         High = 2
     }
+
+
+
 }

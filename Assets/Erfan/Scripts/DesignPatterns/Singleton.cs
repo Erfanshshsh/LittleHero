@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 {
+    public bool isDontDestroyOnLoad = false;
     private static T _instance;
 
     public static T Instance
@@ -17,7 +18,7 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
                     Debug.LogError($"No instance of {typeof(T)} found in the scene.");
                 }
             }
-
+    
             return _instance;
         }
     }
@@ -27,6 +28,10 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
         if (_instance == null)
         {
             _instance = this as T;
+            if (isDontDestroyOnLoad)
+            {
+                DontDestroyOnLoad(gameObject);
+            }
 
         }
         else if (_instance != this)

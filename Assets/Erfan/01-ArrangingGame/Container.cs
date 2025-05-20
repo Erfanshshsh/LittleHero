@@ -13,8 +13,8 @@ public class Container : MonoBehaviour
             if (dragObject.arrangingGameItemType == itemType)
             {
                 point++;
-                ArrangingGamePointManager.Instance.inBoxCount++;
-                ArrangingGamePointManager.Instance.UpdateText();
+                ArrangingGameHandler.Instance.inBoxCount++;
+                ArrangingGameHandler.Instance.UpdateScore();
                 
             }
         }
@@ -28,8 +28,8 @@ public class Container : MonoBehaviour
             if (dragObject.arrangingGameItemType == itemType)
             {
                 point--;
-                ArrangingGamePointManager.Instance.inBoxCount--;
-                ArrangingGamePointManager.Instance.UpdateText();
+                ArrangingGameHandler.Instance.inBoxCount--;
+                ArrangingGameHandler.Instance.UpdateScore();
             }
         }
     }

@@ -127,29 +127,14 @@ public class MenuListener : MonoBehaviour {
     }
 
     void Update() {
-		if (Application.loadedLevel == Utils.MainInterface 
-			&& !titleAnimation.IsPlaying("Title")) {      		//若当前处于开始菜单的场景
-			ejectButton();                      				//弹出按钮
-			breathButton();										//呼吸效果
-            hideButton();                       				//隐藏按钮
-        }
 		EscapeListen ();										//监听返回键
     }
 
 	//*****************************************主界面*****************************************
 	//设置兔子模型的位置
 	public void setRabbit() {
-		/*Vector3 matPosition = Mat.transform.position;
-		Vector2 v1 = new Vector2 (Screen.width / 2.0f, Screen.height / 2.0f);
-		Vector2 v2 = Camera.main.WorldToScreenPoint (matPosition);
-		Vector2 center = new Vector2((v1.x + v2.x) / 2.0f, (v1.y + v2.y) / 2.0f);
-		Vector3 rabbitPostion = Camera.main.ScreenToWorldPoint (new Vector3(center.x, center.y, 90.0f));
-		rabbit.transform.position = new Vector3(rabbitPostion.x * 2.0f, rabbitPostion.y * 2.0f, rabbitPostion.z);*/
-		Vector3 cameraPosition = MyMainCamera.transform.position;									//获取摄像机位置
-		Vector3 matPosition = Mat.transform.position;												//获取垫子位置
-		Vector3 rabbitPostion = new Vector3 ((cameraPosition.x + matPosition.x) / 2.0f, 
-			(cameraPosition.y + matPosition.y) / 2.0f, (cameraPosition.z + matPosition.z) / 2.0f);	//计算兔子位置
-		rabbit.transform.position = rabbitPostion;													//设置兔子位置
+											//获取垫子位置
+
 	}
 
 	//弹出按钮

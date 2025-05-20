@@ -44,6 +44,7 @@ public class FindDifferenceGameHandler : Singleton<FindDifferenceGameHandler>
                     if (_foundCount >= _diffCount)
                     {
                         Debug.Log("Level Won");
+                        GameManager.Instance.OnFinishGameAsync();
                     }
                 }
             }

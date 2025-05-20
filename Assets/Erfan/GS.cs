@@ -13,4 +13,5 @@ public class GS : SingletonScriptableObject<GS>
     
     public Ease FadeOutEase;
     public Ease FadeIntEase;
+    public int ChooseSimilarDelayAfterFinish = 1000;
 }

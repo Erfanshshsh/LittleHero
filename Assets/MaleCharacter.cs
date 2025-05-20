@@ -59,8 +59,9 @@ public class MaleCharacter : MonoBehaviour
             UIManager.Instance.ShowChooseGameView();
             GetComponent<movement>().enabled = false;
             GetComponent<Animator>().SetBool("MoveFWD", false);
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
+            var zone = other.gameObject.GetComponent<Zone>();
+            GameManager.Instance.currentLocation = zone.currentLocation;
+            
 
         }
     }
