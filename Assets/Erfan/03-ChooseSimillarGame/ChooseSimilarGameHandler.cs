@@ -18,16 +18,18 @@ public class ChooseSimilarGameHandler : MonoBehaviour
 
     private void Start()
     {
-        sampleItem = Instantiate(GameManager.Instance.findSimilarConfig.sampleItem, sampleSpawnTf);
-        var items = GameManager.Instance.findSimilarConfig.GetShuffledCombinedList();
+        var config = GameManager.Instance.findSimilarConfig;
+
+        sampleItem = Instantiate(config.sampleItem, sampleSpawnTf);
+        var items = config.GetShuffledCombinedList();
 
         for (var i = 0; i < items.Count; i++)
         {
             Instantiate(items[i], spawnPoints[i]);
         }
 
-        UIManager.Instance.ShowInGameView();
-        UIManager.Instance.ShowHowToPlay(GameManager.Instance.findSimilarConfig.howToPlayText);
+
+        UIManager.Instance.HowToPlayAndInGameProcedure(config.howToPlayText);
     }
 
 

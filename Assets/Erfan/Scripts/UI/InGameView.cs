@@ -10,6 +10,7 @@ public class InGameView : View
 
     public RTLTextMeshPro userRights;
     public RTLTextMeshPro userWrongs;
+    public Timer timer;
 
     private void Start()
     {
@@ -29,5 +30,10 @@ public class InGameView : View
     public void AddToWrongs(int wrongs)
     {
         userWrongs.text = wrongs.ToString();
+    }
+
+    public void StartTimer()
+    {
+        timer.StartTimer();
     }
 }

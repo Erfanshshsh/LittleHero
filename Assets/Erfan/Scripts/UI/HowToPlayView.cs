@@ -1,3 +1,4 @@
+using System;
 using Cysharp.Threading.Tasks;
 using Joyixir.GameManager.UI;
 using RTLTMPro;
@@ -9,17 +10,18 @@ public class HowToPlayView : View
 
 
 
-    public void Initialize(string text)
+    public void Initialize(string text, Action onHideComplete = null)
     {
         howToPlayText.text = text;
-        HideAfterDelay();
+        HideAfterDelay(onHideComplete);
     }
     
     
-    private async UniTask HideAfterDelay()
+    private async UniTask HideAfterDelay(Action onHideComplete)
     {
         await UniTask.Delay(GS.INS.ChooseSimilarDelayAfterFinish*3); // delay in milliseconds (1000 = 1 second)
-        AnimateDown();
+        await AnimateDown();
+        onHideComplete?.Invoke();
     }
     
     

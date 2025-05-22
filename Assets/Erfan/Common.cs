@@ -38,7 +38,21 @@ public class Common
     
     public enum Location { School, Hospital, AmusementPark }
 
+    public class LevelFinishData
+    {
+        public int RightCount;
+        public int WrongCount;
+        public int TimeCount;
+        public bool IsWon;
 
+        public LevelFinishData(int rightCount, int wrongCount, int timeCount, bool isWon)
+        {
+            RightCount = rightCount;
+            WrongCount = wrongCount;
+            TimeCount = timeCount;
+            IsWon = isWon;
+        }
+    }
     
 
 }

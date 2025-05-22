@@ -36,4 +36,8 @@ public class GameManager : Singleton<GameManager>
         SceneManager.LoadScene(sceneIndex);
     }
 
+    public void RestartCurrentLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
 }

@@ -53,19 +53,32 @@ public class UIManager : Singleton<UIManager>
     {
         inGameViewInstance = (InGameView)ShowWindow(inGameView, ViewPriority.High);
     }
-    public void ShowYouWon()
+    public void ShowYouWon(Common.LevelFinishData finishData = null)
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-        ShowWindow(wonView, ViewPriority.High);
+        var wonViewInstance = (WonView)ShowWindow(wonView, ViewPriority.High);
+        if (finishData != null)
+            wonViewInstance.ShowLevelFinishData(finishData);
     }
-    
-    
-    
+
+
+
     public void ShowHowToPlay(string text)
     {
         var howToPlay = (HowToPlayView)ShowWindow(howToPlayView, ViewPriority.High);
         howToPlay.Initialize(text);
+    }
+
+    public void HowToPlayAndInGameProcedure(string text)
+    {
+        var howToPlay = (HowToPlayView)ShowWindow(howToPlayView, ViewPriority.High);
+        howToPlay.Initialize(text, () =>
+        {
+            Debug.Log("Hide finished!");
+            ShowInGameView();
+            // Add other logic here
+        });
     }
     
     public SelectNumberView ShowSelectNumber()
