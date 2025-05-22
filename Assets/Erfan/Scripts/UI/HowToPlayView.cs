@@ -19,7 +19,7 @@ public class HowToPlayView : View
     
     private async UniTask HideAfterDelay(Action onHideComplete)
     {
-        await UniTask.Delay(GS.INS.ChooseSimilarDelayAfterFinish*3); // delay in milliseconds (1000 = 1 second)
+        await UniTask.Delay(GS.INS.ChooseSimilarDelayAfterFinish*2); // delay in milliseconds (1000 = 1 second)
         await AnimateDown();
         onHideComplete?.Invoke();
     }

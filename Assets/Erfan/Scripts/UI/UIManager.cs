@@ -70,13 +70,14 @@ public class UIManager : Singleton<UIManager>
         howToPlay.Initialize(text);
     }
 
-    public void HowToPlayAndInGameProcedure(string text)
+    public void HowToPlayAndInGameProcedure(string text, Action onHideComplete = null)
     {
         var howToPlay = (HowToPlayView)ShowWindow(howToPlayView, ViewPriority.High);
         howToPlay.Initialize(text, () =>
         {
             Debug.Log("Hide finished!");
             ShowInGameView();
+            onHideComplete?.Invoke();
             // Add other logic here
         });
     }

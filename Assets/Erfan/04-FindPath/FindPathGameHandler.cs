@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -10,6 +11,7 @@ public class FindPathGameHandler : Singleton<FindPathGameHandler>
     public int wrongScore;
     public int overallCounter;
     private FindPathConfig _currentConfig;
+    private List<Butterfly> _butterflyList = new List<Butterfly>();
     private void Start()
     {
         _currentConfig = GameManager.Instance.findPathConfig;
@@ -29,9 +31,19 @@ public class FindPathGameHandler : Singleton<FindPathGameHandler>
             butterfly.Initialize(i);
             butterfly.onSelectRightFlower.AddListener(OnRight);
             butterfly.onSelectWrongFlower.AddListener(OnWrong);
+            _butterflyList.Add(butterfly);
         }
     }
 
+
+    private void OnDisable()
+    {
+        foreach (var butterfly in _butterflyList)
+        {
+            butterfly.onSelectRightFlower.RemoveAllListeners();
+            butterfly.onSelectWrongFlower.RemoveAllListeners();
+        }
+    }
 
 
     private void OnRight()
