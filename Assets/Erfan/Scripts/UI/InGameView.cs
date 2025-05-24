@@ -15,7 +15,8 @@ public class InGameView : View
     public Button restartButton;
     public Button homeButton;
 
-
+    public int totalRights;
+    
     private void OnEnable()
     {
         homeButton.onClick.AddListener(() => GameManager.Instance.LoadScene(0));
@@ -29,10 +30,17 @@ public class InGameView : View
     }
 
     
-    private void Start()
+
+
+    public void Initialize(int mTotalRights = 0)
     {
         userRights.text = "0";
         userWrongs.text = "0";
+        totalRights = mTotalRights;
+        if (totalRights > 0)
+        {
+            userRights.text = $"{0} / {totalRights}";
+        }
     }
     protected override void OnBackBtn()
     {
@@ -41,6 +49,10 @@ public class InGameView : View
     public void AddToRights(int score)
     {
         userRights.text = score.ToString();
+        if (totalRights > 0)
+        {
+            userRights.text = $"{score} / {totalRights}";
+        }
     }
     
     public void AddToWrongs(int wrongs)

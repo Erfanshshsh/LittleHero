@@ -29,6 +29,8 @@ public class TypoItem : MonoBehaviour
         if (isWrong)
         {
             text.text = rightText;
+            text.color = Color.green;
         }
+
     }
 }

@@ -49,9 +49,11 @@ public class UIManager : Singleton<UIManager>
     }
 
     
-    public void ShowInGameView()
+    public void ShowInGameView(int totalRights = 0)
     {
         inGameViewInstance = (InGameView)ShowWindow(inGameView, ViewPriority.High);
+        inGameViewInstance.Initialize(totalRights);
+
     }
     public void ShowYouWon(Common.LevelFinishData finishData = null)
     {
@@ -70,13 +72,13 @@ public class UIManager : Singleton<UIManager>
         howToPlay.Initialize(text);
     }
 
-    public void HowToPlayAndInGameProcedure(string text, Action onHideComplete = null)
+    public void HowToPlayAndInGameProcedure(string text, Action onHideComplete = null, int totalRights = 0)
     {
         var howToPlay = (HowToPlayView)ShowWindow(howToPlayView, ViewPriority.High);
         howToPlay.Initialize(text, () =>
         {
             Debug.Log("Hide finished!");
-            ShowInGameView();
+            ShowInGameView(totalRights);
             onHideComplete?.Invoke();
             // Add other logic here
         });
