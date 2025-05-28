@@ -1,18 +1,9 @@
 using Cysharp.Threading.Tasks;
-using Sirenix.OdinInspector;
 using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
 
 public class GameManager : Singleton<GameManager>
 {
     public LevelConfig currentLevelConfig;
-
-    [FormerlySerializedAs("arrangingGameItems")] public ArrangingGameConfig arrangingGameConfig;
-    public FindDifferenceGame findDifferenceGame;
-    public FindSimilarConfig findSimilarConfig;
-    public FindPathConfig findPathConfig;
-    // public TypoConfig typoConfig;
-    
     public Common.Location currentLocation;
     public Common.Difficulty currentDifficulty;
     public int gameIndex;
