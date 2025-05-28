@@ -27,7 +27,7 @@ public class DifferenceItem : MonoBehaviour
         rightSprite.gameObject.SetActive(true);
         secondRightSprite.gameObject.SetActive(true);
 
-        var color = GameManager.Instance.findDifferenceGame.levelRightSpriteColor;
+        var color = FindDifferenceGameHandler.Instance.levelRightSpriteColor;
         rightSprite.color = color;
         secondRightSprite.color = color;
 

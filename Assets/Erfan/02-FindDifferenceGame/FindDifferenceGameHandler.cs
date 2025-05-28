@@ -1,4 +1,5 @@
 using System;
+using Cysharp.Threading.Tasks;
 using RTLTMPro;
 using UnityEngine;
 
@@ -11,12 +12,20 @@ public class FindDifferenceGameHandler : Singleton<FindDifferenceGameHandler>
 
     private int _diffCount;
     private int _foundCount = 0;
+    private FindDifferenceGame.ZoneDifficultyConfig _zoneDConfig;
+    public Color levelRightSpriteColor;
     private void Start()
     {
-        var findDifferenceImage = GameManager.Instance.findDifferenceGame.prefab;
+        var currentConfig = GameManager.Instance.currentLevelConfig as FindDifferenceGame;
+        _zoneDConfig = currentConfig.GetConfig(GameManager.Instance.currentLocation,
+            GameManager.Instance.currentDifficulty);
+        var findDifferenceImage = _zoneDConfig.prefab;
+        levelRightSpriteColor = _zoneDConfig.levelRightSpriteColor;
         var instance = Instantiate(findDifferenceImage, prefabParent);
         instance.transform.localPosition = Vector3.zero;
         _diffCount = instance.diffItems.Count;
+        UIManager.Instance.HowToPlayAndInGameProcedure(currentConfig.howToPlayText,
+            () => { });
         UpdateText();
     }
 
@@ -44,7 +53,7 @@ public class FindDifferenceGameHandler : Singleton<FindDifferenceGameHandler>
                     if (_foundCount >= _diffCount)
                     {
                         Debug.Log("Level Won");
-                        GameManager.Instance.OnFinishGameAsync();
+                        DelayFinishGameBehaviour();
                     }
                 }
             }
@@ -54,5 +63,13 @@ public class FindDifferenceGameHandler : Singleton<FindDifferenceGameHandler>
     private void UpdateText()
     {
         levelText.text = $"{_foundCount}/{_diffCount}";
+    }
+    
+    private async UniTaskVoid DelayFinishGameBehaviour()
+    {
+        await UniTask.DelayFrame(30);
+        var finishData = new Common.LevelFinishData(_foundCount, 0,
+            (int)Timer.Instance.timeRemaining, true);
+        GameManager.Instance.OnFinishGameAsync(finishData);
     }
 }

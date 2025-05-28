@@ -21,7 +21,8 @@ public class ChooseGameView : View
         for (int i = 0; i < Buttons.Count; i++)
         {
             int sceneIndex = i; // Capture the index correctly in the closure
-            Buttons[i].onClick.AddListener(() => OnButtonClick(sceneIndex));
+            var gameSelectionBtn = Buttons[i].GetComponent<GameSelectionButton>();
+            Buttons[i].onClick.AddListener(() => OnButtonClick(sceneIndex, gameSelectionBtn.levelConfig));
         }
         
         
@@ -64,17 +65,17 @@ public class ChooseGameView : View
         gamesPanel.gameObject.SetActive(true);
     }
 
-    public void OnButtonClick(int cardIndex)
+    public void OnButtonClick(int cardIndex, LevelConfig levelConfig)
     {
         var currentDifficulty = (int)GameManager.Instance.currentDifficulty;
-        if (!(currentDifficulty-1< 0))
+        if (currentDifficulty - 1 >= 0)
         {
             var previousDifficulty = (Common.Difficulty)currentDifficulty-1;
             var isPrevDifficultyPlayed = GameProgressManager.HasGameBeenPlayed(cardIndex, GameManager.Instance.currentLocation, 
                 previousDifficulty);
             if (isPrevDifficultyPlayed)
             {
-                GameManager.Instance.OnGameCardClicked(cardIndex);
+                GameManager.Instance.OnGameCardClicked(cardIndex, levelConfig);
             }
 
             else
@@ -85,7 +86,7 @@ public class ChooseGameView : View
 
         else
         {
-            GameManager.Instance.OnGameCardClicked(cardIndex);
+            GameManager.Instance.OnGameCardClicked(cardIndex, levelConfig);
         }
 
     }

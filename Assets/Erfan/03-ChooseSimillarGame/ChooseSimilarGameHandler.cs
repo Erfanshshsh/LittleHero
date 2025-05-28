@@ -15,21 +15,23 @@ public class ChooseSimilarGameHandler : MonoBehaviour
     private int rights;
     private int wrongs;
 
+    private FindSimilarConfig.ZoneDifficultyConfig _zoneDConfig;
 
     private void Start()
     {
-        var config = GameManager.Instance.findSimilarConfig;
+        var currentConfig = GameManager.Instance.currentLevelConfig as FindSimilarConfig;
+        _zoneDConfig = currentConfig.GetConfig(GameManager.Instance.currentLocation,
+            GameManager.Instance.currentDifficulty);
 
-        sampleItem = Instantiate(config.sampleItem, sampleSpawnTf);
-        var items = config.GetShuffledCombinedList();
+        sampleItem = Instantiate(_zoneDConfig.sampleItem, sampleSpawnTf);
+        var items = _zoneDConfig.GetShuffledCombinedList();
 
         for (var i = 0; i < items.Count; i++)
         {
             Instantiate(items[i], spawnPoints[i]);
         }
 
-
-        UIManager.Instance.HowToPlayAndInGameProcedure(config.howToPlayText);
+        UIManager.Instance.HowToPlayAndInGameProcedure(currentConfig.howToPlayText);
     }
 
 
@@ -52,9 +54,9 @@ public class ChooseSimilarGameHandler : MonoBehaviour
                     rayCastItem.EnableRightOutlinable();
 
                     rayCastItem.enabled = false;
-                    if (rights >= GameManager.Instance.findSimilarConfig.bottomCorrectItems.Count)
+                    if (rights >= _zoneDConfig.bottomCorrectItems.Count)
                     {
-                        await ShowWinAfterDelay();
+                        DelayFinishGameBehaviour();
                     }
                 }
                 else
@@ -68,10 +70,13 @@ public class ChooseSimilarGameHandler : MonoBehaviour
             }
         }
     }
-    
-    private async UniTask ShowWinAfterDelay()
+
+
+    private async UniTaskVoid DelayFinishGameBehaviour()
     {
-        await UniTask.Delay(GS.INS.ChooseSimilarDelayAfterFinish); // delay in milliseconds (1000 = 1 second)
-        UIManager.Instance.ShowYouWon();
+        await UniTask.DelayFrame(30);
+        var finishData = new Common.LevelFinishData(rights, wrongs,
+            (int)Timer.Instance.timeRemaining, rights >= wrongs);
+        GameManager.Instance.OnFinishGameAsync(finishData);
     }
 }

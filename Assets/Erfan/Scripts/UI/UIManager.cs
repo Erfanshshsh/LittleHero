@@ -15,6 +15,7 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] private SelectNumberView selectNumberView;
 
     [NonSerialized] public InGameView inGameViewInstance;
+    [NonSerialized] public HowToPlayView howToPlayViewInstance;
 
     [PropertyTooltip("3 Different Layers for UI Views")] [FoldoutGroup("UI Containers")]
     public List<GameObject> containers;
@@ -51,6 +52,7 @@ public class UIManager : Singleton<UIManager>
     
     public void ShowInGameView(int totalRights = 0)
     {
+
         inGameViewInstance = (InGameView)ShowWindow(inGameView, ViewPriority.High);
         inGameViewInstance.Initialize(totalRights);
 
@@ -68,14 +70,21 @@ public class UIManager : Singleton<UIManager>
 
     public void ShowHowToPlay(string text)
     {
-        var howToPlay = (HowToPlayView)ShowWindow(howToPlayView, ViewPriority.High);
-        howToPlay.Initialize(text);
+        if (howToPlayViewInstance != null)
+        {
+            howToPlayViewInstance.gameObject.SetActive(true);
+            howToPlayViewInstance.AnimateUp();
+            howToPlayViewInstance.Initialize(text);
+            return;
+        }
+        howToPlayViewInstance = (HowToPlayView)ShowWindow(howToPlayView, ViewPriority.High);
+        howToPlayViewInstance.Initialize(text);
     }
 
     public void HowToPlayAndInGameProcedure(string text, Action onHideComplete = null, int totalRights = 0)
     {
-        var howToPlay = (HowToPlayView)ShowWindow(howToPlayView, ViewPriority.High);
-        howToPlay.Initialize(text, () =>
+        howToPlayViewInstance = (HowToPlayView)ShowWindow(howToPlayView, ViewPriority.High);
+        howToPlayViewInstance.Initialize(text, () =>
         {
             Debug.Log("Hide finished!");
             ShowInGameView(totalRights);

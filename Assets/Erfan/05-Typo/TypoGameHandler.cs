@@ -1,31 +1,28 @@
-using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
-using Sirenix.OdinInspector;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class TypoGameHandler : Singleton<TypoGameHandler>
 {
     [SerializeField] private RectTransform stringParent;
-    private TypoConfig _currentConfig;
     private List<TypoItem> _typoItems = new List<TypoItem>();
     public int rightScore;
     public int wrongScore;
     public int delayFrameCount = 30;
     private RectTransform sentenceRect;
     private int _totalWrongCount = 0;
-
+    private TypoConfig.ZoneDifficultyConfig _zoneDConfig;
     private void Start()
     {
-        _currentConfig = GameManager.Instance.typoConfig;
+        var currentConfig = GameManager.Instance.currentLevelConfig as TypoConfig;
+        _zoneDConfig = currentConfig.GetConfig(GameManager.Instance.currentLocation, 
+            GameManager.Instance.currentDifficulty);
         GetTotalWrongs();
-
-        UIManager.Instance.HowToPlayAndInGameProcedure(_currentConfig.howToPlayText,
+        UIManager.Instance.HowToPlayAndInGameProcedure(currentConfig.howToPlayText,
             () =>
             {
-                var typoString = Instantiate(_currentConfig.typoString, stringParent);
+                var typoString = Instantiate(_zoneDConfig.typoString, stringParent);
                 sentenceRect = typoString.transform as RectTransform;
                 var typoItems = typoString.typoItems;
                 foreach (var mTypoItem in typoItems)
@@ -38,7 +35,7 @@ public class TypoGameHandler : Singleton<TypoGameHandler>
 
     private void GetTotalWrongs()
     {
-        var typoItems = _currentConfig.typoString.typoItems;
+        var typoItems = _zoneDConfig.typoString.typoItems;
         foreach (var typoItem in typoItems)
         {
             if (typoItem.isWrong)
@@ -90,18 +87,13 @@ public class TypoGameHandler : Singleton<TypoGameHandler>
     }
 
 
-    private void FinishGameBehaviour()
-    {
-        var finishData = new Common.LevelFinishData(rightScore, wrongScore,
-            (int)Timer.Instance.timeRemaining, rightScore >= wrongScore);
-        UIManager.Instance.ShowYouWon(finishData);
-    }
+
 
     private async UniTaskVoid DelayFinishGameBehaviour()
     {
         await UniTask.DelayFrame(30);
         var finishData = new Common.LevelFinishData(rightScore, wrongScore,
             (int)Timer.Instance.timeRemaining, rightScore >= wrongScore);
-        UIManager.Instance.ShowYouWon(finishData);
+        GameManager.Instance.OnFinishGameAsync(finishData);
     }
 }

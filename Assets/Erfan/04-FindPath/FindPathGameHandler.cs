@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 
@@ -10,14 +11,17 @@ public class FindPathGameHandler : Singleton<FindPathGameHandler>
     public int rightScore;
     public int wrongScore;
     public int overallCounter;
-    private FindPathConfig _currentConfig;
     private List<Butterfly> _butterflyList = new List<Butterfly>();
+    private FindPathConfig.ZoneDifficultyConfig _zoneDConfig;
+
     private void Start()
     {
-        _currentConfig = GameManager.Instance.findPathConfig;
+        var currentConfig = GameManager.Instance.currentLevelConfig as FindPathConfig;
+        _zoneDConfig = currentConfig.GetConfig(GameManager.Instance.currentLocation,
+            GameManager.Instance.currentDifficulty);
 
-        UIManager.Instance.HowToPlayAndInGameProcedure(_currentConfig.howToPlayText);
-        var level = Instantiate(_currentConfig.FindPathLevel, levelPrefabTf);
+        UIManager.Instance.HowToPlayAndInGameProcedure(currentConfig.howToPlayText);
+        var level = Instantiate(_zoneDConfig.FindPathLevel, levelPrefabTf);
 
         for (var i = 0; i < level.splines.Count; i++)
         {
@@ -27,7 +31,7 @@ public class FindPathGameHandler : Singleton<FindPathGameHandler>
 
             // Convert local spline point to world space
             Vector3 worldPos = level.m_Spline.transform.TransformPoint(localPos);
-            var butterfly = Instantiate(_currentConfig.butterflyPrefab, worldPos, Quaternion.identity);
+            var butterfly = Instantiate(_zoneDConfig.butterflyPrefab, worldPos, Quaternion.identity);
             butterfly.Initialize(i);
             butterfly.onSelectRightFlower.AddListener(OnRight);
             butterfly.onSelectWrongFlower.AddListener(OnWrong);
@@ -54,30 +58,32 @@ public class FindPathGameHandler : Singleton<FindPathGameHandler>
     }
 
 
-
     private void OnWrong()
     {
         wrongScore++;
         if (HandleAnswer()) return;
         UIManager.Instance.inGameViewInstance.AddToWrongs(wrongScore);
     }
-    
+
     private bool HandleAnswer()
     {
         overallCounter++;
 
-        if (overallCounter >= _currentConfig.FindPathLevel.splines.Count)
+        if (overallCounter >= _zoneDConfig.FindPathLevel.splines.Count)
         {
-            FinishGameBehaviour();
-            return true; 
+            DelayFinishGameBehaviour();
+            return true;
         }
-        return false; 
 
+        return false;
     }
-    private void FinishGameBehaviour()
+
+
+    private async UniTaskVoid DelayFinishGameBehaviour()
     {
-        var finishData = new Common.LevelFinishData(rightScore, wrongScore, 
+        await UniTask.DelayFrame(30);
+        var finishData = new Common.LevelFinishData(rightScore, wrongScore,
             (int)Timer.Instance.timeRemaining, rightScore >= wrongScore);
-        UIManager.Instance.ShowYouWon(finishData);
+        GameManager.Instance.OnFinishGameAsync(finishData);
     }
 }

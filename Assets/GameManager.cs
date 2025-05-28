@@ -1,32 +1,34 @@
 using Cysharp.Threading.Tasks;
-using Joyixir.GameManager.Utils;
 using Sirenix.OdinInspector;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 public class GameManager : Singleton<GameManager>
 {
-    public ArrangingGameItems arrangingGameItems;
+    public LevelConfig currentLevelConfig;
+
+    [FormerlySerializedAs("arrangingGameItems")] public ArrangingGameConfig arrangingGameConfig;
     public FindDifferenceGame findDifferenceGame;
     public FindSimilarConfig findSimilarConfig;
     public FindPathConfig findPathConfig;
-    public TypoConfig typoConfig;
+    // public TypoConfig typoConfig;
     
     public Common.Location currentLocation;
     public Common.Difficulty currentDifficulty;
     public int gameIndex;
 
-    public void OnGameCardClicked(int cardIndex)
+    public void OnGameCardClicked(int cardIndex, LevelConfig levelConfig)
     {
+        currentLevelConfig = levelConfig;
         gameIndex = cardIndex;
         LoadScene(cardIndex+1);
     }
 
-    [Button]
-    public async UniTaskVoid OnFinishGameAsync()
+    public async UniTaskVoid OnFinishGameAsync(Common.LevelFinishData finishData = null)
     {
         GameProgressManager.MarkGamePlayed(gameIndex, currentLocation, currentDifficulty);
         await UniTask.Delay(1000);
-        UIManager.Instance.ShowYouWon();
+        UIManager.Instance.ShowYouWon(finishData);
     }
 
 
@@ -41,4 +43,6 @@ public class GameManager : Singleton<GameManager>
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
+
+
 }

@@ -1,19 +1,16 @@
-using System;
 using Joyixir.GameManager.UI;
 using RTLTMPro;
-using Sirenix.OdinInspector;
-using UnityEngine;
 using UnityEngine.UI;
 
 
 public class InGameView : View
 {
-
     public RTLTextMeshPro userRights;
     public RTLTextMeshPro userWrongs;
     public Timer timer;
     public Button restartButton;
     public Button homeButton;
+    public Button howToPlayButton;
 
     public int totalRights;
     
@@ -21,12 +18,16 @@ public class InGameView : View
     {
         homeButton.onClick.AddListener(() => GameManager.Instance.LoadScene(0));
         restartButton.onClick.AddListener(() => GameManager.Instance.RestartCurrentLevel());
+        howToPlayButton.onClick.AddListener(() => 
+            UIManager.Instance.ShowHowToPlay(GameManager.Instance.currentLevelConfig.howToPlayText));
     }
     
     private void OnDisable()
     {
         homeButton.onClick.RemoveAllListeners();
         restartButton.onClick.RemoveAllListeners();
+        howToPlayButton.onClick.RemoveAllListeners();
+
     }
 
     

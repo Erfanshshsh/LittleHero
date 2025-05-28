@@ -5,7 +5,7 @@ public class GameSelectionButton : MonoBehaviour
 {
     public UIEffect uiEffect;
     public GameObject isPlayedText;
-
+    public LevelConfig levelConfig;
 
     public void SetActive()
     {

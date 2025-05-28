@@ -2,8 +2,8 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "FindPathConfig", menuName = "Erfan/Scriptable Objects/FindPathConfig")]
-public class FindPathConfig : LevelConfig
+[CreateAssetMenu(fileName = "ArrangingGameItems", menuName = "Erfan/Scriptable Objects/ArrangingGameItems")]
+public class ArrangingGameConfig : LevelConfig
 {
     public List<ZoneDifficultyConfig> configurations = new List<ZoneDifficultyConfig>();
 
@@ -12,8 +12,7 @@ public class FindPathConfig : LevelConfig
     {
         public Common.Location location;
         public Common.Difficulty difficulty;
-        public Butterfly butterflyPrefab;
-        public FindPathLevel FindPathLevel;
+        public List<DragObject> items = new List<DragObject>();
     }
 
     public ZoneDifficultyConfig GetConfig(Common.Location zone, Common.Difficulty difficulty)
