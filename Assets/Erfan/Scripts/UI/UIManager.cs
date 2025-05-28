@@ -44,8 +44,7 @@ public class UIManager : Singleton<UIManager>
     [Button]
     public void ShowChooseGameView()
     {
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
+
         var gamesView = (ChooseGameView)ShowWindow(chooseGameView, ViewPriority.High);
     }
 

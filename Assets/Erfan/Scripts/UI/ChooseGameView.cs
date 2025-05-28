@@ -13,9 +13,11 @@ public class ChooseGameView : View
     public Button mediumButton;
     public Button hardButton;
     public Button backButton;
+    public Button closeButton;
     public Transform difficultyPanel;
     public Transform gamesPanel;
     public GameObject playLastDifficultyFirst;
+
     private void OnEnable()
     {
         for (int i = 0; i < Buttons.Count; i++)
@@ -24,14 +26,14 @@ public class ChooseGameView : View
             var gameSelectionBtn = Buttons[i].GetComponent<GameSelectionButton>();
             Buttons[i].onClick.AddListener(() => OnButtonClick(sceneIndex, gameSelectionBtn.levelConfig));
         }
-        
-        
+
+
         easyButton.onClick.AddListener(() => OnClickDifficultyButton(Common.Difficulty.Easy));
         mediumButton.onClick.AddListener(() => OnClickDifficultyButton(Common.Difficulty.Medium));
         hardButton.onClick.AddListener(() => OnClickDifficultyButton(Common.Difficulty.Hard));
         backButton.onClick.AddListener(OnClickBackButton);
+        closeButton.onClick.AddListener(OnClickCloseButton);
     }
-
 
 
     private void OnDisable()
@@ -46,7 +48,7 @@ public class ChooseGameView : View
         mediumButton.onClick.RemoveAllListeners();
         hardButton.onClick.RemoveAllListeners();
         backButton.onClick.RemoveAllListeners();
-
+        closeButton.onClick.RemoveAllListeners();
     }
 
     private void OnClickBackButton()
@@ -56,62 +58,67 @@ public class ChooseGameView : View
         difficultyPanel.gameObject.SetActive(true);
     }
 
-    public void OnClickDifficultyButton(Common.Difficulty difficulty)
+    private void OnClickCloseButton()
     {
-        GameManager.Instance.currentDifficulty = difficulty;
-        difficultyPanel.gameObject.SetActive(false);
-
-        InitializeGames();
-        gamesPanel.gameObject.SetActive(true);
+        AnimateDown();
+        MaleCharacter.Instance.EnableController();
     }
 
-    public void OnButtonClick(int cardIndex, LevelConfig levelConfig)
+public void OnClickDifficultyButton(Common.Difficulty difficulty)
+{
+    GameManager.Instance.currentDifficulty = difficulty;
+    difficultyPanel.gameObject.SetActive(false);
+
+    InitializeGames();
+    gamesPanel.gameObject.SetActive(true);
+}
+
+public void OnButtonClick(int cardIndex, LevelConfig levelConfig)
+{
+    var currentDifficulty = (int)GameManager.Instance.currentDifficulty;
+    if (currentDifficulty - 1 >= 0)
     {
-        var currentDifficulty = (int)GameManager.Instance.currentDifficulty;
-        if (currentDifficulty - 1 >= 0)
-        {
-            var previousDifficulty = (Common.Difficulty)currentDifficulty-1;
-            var isPrevDifficultyPlayed = GameProgressManager.HasGameBeenPlayed(cardIndex, GameManager.Instance.currentLocation, 
-                previousDifficulty);
-            if (isPrevDifficultyPlayed)
-            {
-                GameManager.Instance.OnGameCardClicked(cardIndex, levelConfig);
-            }
-
-            else
-            {
-                playLastDifficultyFirst.gameObject.SetActive(true);
-            }
-        }
-
-        else
+        var previousDifficulty = (Common.Difficulty)currentDifficulty - 1;
+        var isPrevDifficultyPlayed = GameProgressManager.HasGameBeenPlayed(cardIndex,
+            GameManager.Instance.currentLocation,
+            previousDifficulty);
+        if (isPrevDifficultyPlayed)
         {
             GameManager.Instance.OnGameCardClicked(cardIndex, levelConfig);
         }
 
-    }
-    public void InitializeGames()
-    {
-        for (var i = 0; i < Buttons.Count; i++)
+        else
         {
-            var isPlayed = GameProgressManager.HasGameBeenPlayed(i, GameManager.Instance.currentLocation, 
-                GameManager.Instance.currentDifficulty);
-
-            if (!isPlayed)
-            {
-                Buttons[i].GetComponent<GameSelectionButton>().SetActive();
-            }
-            else
-            {
-                Buttons[i].GetComponent<GameSelectionButton>().SetInactive();
-            }
+            playLastDifficultyFirst.gameObject.SetActive(true);
         }
     }
 
-
-        
-        
-    protected override void OnBackBtn()
+    else
     {
+        GameManager.Instance.OnGameCardClicked(cardIndex, levelConfig);
     }
+}
+
+public void InitializeGames()
+{
+    for (var i = 0; i < Buttons.Count; i++)
+    {
+        var isPlayed = GameProgressManager.HasGameBeenPlayed(i, GameManager.Instance.currentLocation,
+            GameManager.Instance.currentDifficulty);
+
+        if (!isPlayed)
+        {
+            Buttons[i].GetComponent<GameSelectionButton>().SetActive();
+        }
+        else
+        {
+            Buttons[i].GetComponent<GameSelectionButton>().SetInactive();
+        }
+    }
+}
+
+
+protected override void OnBackBtn()
+{
+}
 }
