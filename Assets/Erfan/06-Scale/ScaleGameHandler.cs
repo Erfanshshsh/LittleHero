@@ -5,6 +5,7 @@ using UnityEngine;
 public class ScaleGameHandler : MonoBehaviour
 {
     public Transform spawnPoint;
+    public Transform referenceItemSpawnPoint;
     public Camera mainCamera;
 
     private int rights;
@@ -12,6 +13,7 @@ public class ScaleGameHandler : MonoBehaviour
 
     private ScaleConfig.ZoneDifficultyConfig _zoneDConfig;
     private ScalePrefab _scalePrefab;
+    private ScaleItem _sampleItem;
     private void Start()
     {
         var currentConfig = GameManager.Instance.currentLevelConfig as ScaleConfig;
@@ -20,7 +22,8 @@ public class ScaleGameHandler : MonoBehaviour
 
 
         _scalePrefab = Instantiate(_zoneDConfig.prefab, spawnPoint);
-
+        _sampleItem = Instantiate(_zoneDConfig.sampleScaleItem, referenceItemSpawnPoint);
+        _sampleItem.EnableRightOutlinable();
         UIManager.Instance.HowToPlayAndInGameProcedure(currentConfig.howToPlayText);
     }
 
@@ -42,6 +45,7 @@ public class ScaleGameHandler : MonoBehaviour
                     UIManager.Instance.inGameViewInstance.AddToRights(rights);
                     rayCastItem.EnableRightOutlinable();
                     rayCastItem.enabled = false;
+                    hit.collider.enabled = false;
                     if (rights >= _scalePrefab.wrongScaleItems.Count)
                     {
                         DelayFinishGameBehaviour();
@@ -50,8 +54,9 @@ public class ScaleGameHandler : MonoBehaviour
                 else
                 {
                     wrongs++;
-                    rayCastItem.gameObject.GetComponent<BoxCollider>().enabled = false;
-                    StaticTweeners.DoYoyoScale(rayCastItem.transform);
+                    hit.collider.enabled = false;
+                    // var scale = rayCastItem.transform.localScale.x;
+                    // StaticTweeners.DoYoyoScale(rayCastItem.transform, rayCastItem.transform.localScale );
                     UIManager.Instance.inGameViewInstance.AddToWrongs(wrongs);
                     rayCastItem.EnableWrongOutlinable();
                 }

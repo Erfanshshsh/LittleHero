@@ -2,6 +2,7 @@ using EPOOutline;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
+[SelectionBase]
 public class ScaleItem : MonoBehaviour
 {
     public bool isWrongScale;

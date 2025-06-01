@@ -13,6 +13,7 @@ public class ScaleConfig : LevelConfig
         public Common.Location location;
         public Common.Difficulty difficulty;
         public ScalePrefab prefab;
+        public ScaleItem sampleScaleItem;
     }
 
     public ZoneDifficultyConfig GetConfig(Common.Location zone, Common.Difficulty difficulty)
