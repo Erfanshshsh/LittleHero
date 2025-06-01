@@ -1,11 +1,12 @@
 using UnityEngine;
 
-public class DragObject : MonoBehaviour
+public class NumbersGameDragObject : MonoBehaviour
 {
     private bool isDragging = false;
     private Vector3 offset;
     private Camera mainCamera;
-    public Common.ArrangingGameItemType arrangingGameItemType;
+    public Common.NumbersGameItemType numbersGameItemType;
+
     void Start()
     {
         mainCamera = Camera.main;
@@ -26,7 +27,8 @@ public class DragObject : MonoBehaviour
     {
         if (isDragging)
         {
-            transform.position = GetMouseWorldPosition() + offset;
+            var newPos = GetMouseWorldPosition() + offset;
+            transform.position = new Vector3(newPos.x, transform.position.y, newPos.z);
         }
     }
 
@@ -36,6 +38,4 @@ public class DragObject : MonoBehaviour
         mousePoint.z = mainCamera.WorldToScreenPoint(gameObject.transform.position).z;
         return mainCamera.ScreenToWorldPoint(mousePoint);
     }
-
-
 }

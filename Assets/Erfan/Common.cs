@@ -55,5 +55,12 @@ public class Common
         }
     }
     
+    public enum NumbersGameItemType
+    {
+        even,
+        odd,
+    }
+
+    
 
 }

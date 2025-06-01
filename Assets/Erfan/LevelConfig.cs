@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class LevelConfig : ScriptableObject
+public abstract class LevelConfig : ScriptableObject
 {
     public string howToPlayText;
 }

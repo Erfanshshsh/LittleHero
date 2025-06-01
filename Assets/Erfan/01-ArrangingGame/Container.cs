@@ -4,7 +4,6 @@ using UnityEngine;
 public class Container : MonoBehaviour
 {
     public Common.ArrangingGameItemType itemType;
-    public int point;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -12,7 +11,6 @@ public class Container : MonoBehaviour
         {
             if (dragObject.arrangingGameItemType == itemType)
             {
-                point++;
                 ArrangingGameHandler.Instance.inBoxCount++;
                 ArrangingGameHandler.Instance.UpdateScore();
                 
@@ -27,7 +25,6 @@ public class Container : MonoBehaviour
         {
             if (dragObject.arrangingGameItemType == itemType)
             {
-                point--;
                 ArrangingGameHandler.Instance.inBoxCount--;
                 ArrangingGameHandler.Instance.UpdateScore();
             }

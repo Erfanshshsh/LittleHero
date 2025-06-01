@@ -53,12 +53,12 @@ public class Utils : MonoBehaviour {
 		audioManager = transform.GetComponent<AudioManager> ();                  		//获取音效脚本
 		cameraController = GameObject.Find ("CameraController");                 		//获取摄像机管理对象
 		camera = GameObject.Find ("CameraController/Main Camera");               		//获取摄像机对象
-		if (Application.loadedLevel == Utils.ExperimentalInterface) {					//如果是实验界面
-			Magnifier = GameObject.Find ("Magnifier");                           		//获取摄像机对象
-			Magnifier.SetActive (false);												//不可见放大镜
-			menuListener = GameObject.Find ("Canvas").GetComponent<MenuListener> ();  	//获取菜单管理脚本
-            MyMicphone = GameObject.Find("MicphoneObject").GetComponent<MicphoneTest>();//获取录音脚本
-		}
+		// if (Application.loadedLevel == Utils.ExperimentalInterface) {					//如果是实验界面
+		// 	Magnifier = GameObject.Find ("Magnifier");                           		//获取摄像机对象
+		// 	Magnifier.SetActive (false);												//不可见放大镜
+		// 	menuListener = GameObject.Find ("Canvas").GetComponent<MenuListener> ();  	//获取菜单管理脚本
+  //           MyMicphone = GameObject.Find("MicphoneObject").GetComponent<MicphoneTest>();//获取录音脚本
+		// }
 	}
 
     //重置摄像机与底板位置

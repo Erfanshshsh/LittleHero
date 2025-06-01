@@ -19,7 +19,7 @@ public class InGameView : View
         homeButton.onClick.AddListener(() => GameManager.Instance.LoadScene(0));
         restartButton.onClick.AddListener(() => GameManager.Instance.RestartCurrentLevel());
         howToPlayButton.onClick.AddListener(() => 
-            UIManager.Instance.ShowHowToPlay(GameManager.Instance.currentLevelConfig.howToPlayText));
+            UIManager.Instance.ShowHowToPlay());
     }
     
     private void OnDisable()

@@ -44,18 +44,16 @@ public class UIManager : Singleton<UIManager>
     [Button]
     public void ShowChooseGameView()
     {
-
         var gamesView = (ChooseGameView)ShowWindow(chooseGameView, ViewPriority.High);
     }
 
-    
+
     public void ShowInGameView(int totalRights = 0)
     {
-
         inGameViewInstance = (InGameView)ShowWindow(inGameView, ViewPriority.High);
         inGameViewInstance.Initialize(totalRights);
-
     }
+
     public void ShowYouWon(Common.LevelFinishData finishData = null)
     {
         Cursor.lockState = CursorLockMode.None;
@@ -66,18 +64,19 @@ public class UIManager : Singleton<UIManager>
     }
 
 
-
-    public void ShowHowToPlay(string text)
+    public void ShowHowToPlay()
     {
+        var config = GameManager.Instance.currentLevelConfig;
         if (howToPlayViewInstance != null)
         {
             howToPlayViewInstance.gameObject.SetActive(true);
             howToPlayViewInstance.AnimateUp();
-            howToPlayViewInstance.Initialize(text);
+            howToPlayViewInstance.Initialize(config.howToPlayText);
             return;
         }
+
         howToPlayViewInstance = (HowToPlayView)ShowWindow(howToPlayView, ViewPriority.High);
-        howToPlayViewInstance.Initialize(text);
+        howToPlayViewInstance.Initialize(config.howToPlayText);
     }
 
     public void HowToPlayAndInGameProcedure(string text, Action onHideComplete = null, int totalRights = 0)
@@ -91,12 +90,13 @@ public class UIManager : Singleton<UIManager>
             // Add other logic here
         });
     }
-    
+
     public SelectNumberView ShowSelectNumber()
     {
         var viewIns = (SelectNumberView)ShowWindow(selectNumberView, ViewPriority.High);
         return viewIns;
     }
+
     public void CloseAllWindows()
     {
         for (var i = 0; i < windowInstances.Count; i++)
@@ -118,7 +118,4 @@ public class UIManager : Singleton<UIManager>
         Medium = 1,
         High = 2
     }
-
-
-
 }
