@@ -1,0 +1,152 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d6fc72e89d64b53b2c198a66ca85abc, type: 3}
+  m_Name: FindFriendConfig
+  m_EditorClassIdentifier: 
+  howToPlayText: "\u0627\u0633\u0645 \u062F\u0648\u0633\u062A\u062A\u0648 \u0627\u0646\u062A\u062E\u0627\u0628
+    \u06A9\u0646"
+  configurations:
+  - location: 0
+    difficulty: 0
+    sampleFriendPic: {fileID: 21300000, guid: a338e69ea4e1bcd40a41bf4b88bfd75c, type: 3}
+    sampleFriendType: 1
+    Friends:
+    - mName: "\u0645\u062D\u0645\u062F"
+      FriendType: 0
+    - mName: "\u0631\u0636\u0627"
+      FriendType: 0
+    - mName: "\u0641\u0627\u0637\u0645\u0647"
+      FriendType: 1
+    - mName: "\u0646\u0631\u06CC\u0645\u0627\u0646"
+      FriendType: 0
+    howToPlayText: "\u0627\u0633\u0645 \u062F\u0648\u0633\u062A\u062A\u0648 \u0627\u0646\u062A\u062E\u0627\u0628
+      \u06A9\u0646"
+  - location: 0
+    difficulty: 1
+    sampleFriendPic: {fileID: 21300000, guid: a338e69ea4e1bcd40a41bf4b88bfd75c, type: 3}
+    sampleFriendType: 1
+    Friends:
+    - mName: "\u0645\u062D\u0645\u062F"
+      FriendType: 0
+    - mName: "\u0631\u0636\u0627"
+      FriendType: 0
+    - mName: "\u0641\u0627\u0637\u0645\u0647"
+      FriendType: 1
+    - mName: "\u0646\u0631\u06CC\u0645\u0627\u0646"
+      FriendType: 0
+    howToPlayText: "\u0627\u0633\u0645 \u062F\u0648\u0633\u062A\u062A\u0648 \u0627\u0646\u062A\u062E\u0627\u0628
+      \u06A9\u0646"
+  - location: 0
+    difficulty: 2
+    sampleFriendPic: {fileID: 21300000, guid: a338e69ea4e1bcd40a41bf4b88bfd75c, type: 3}
+    sampleFriendType: 1
+    Friends:
+    - mName: "\u0645\u062D\u0645\u062F"
+      FriendType: 0
+    - mName: "\u0631\u0636\u0627"
+      FriendType: 0
+    - mName: "\u0641\u0627\u0637\u0645\u0647"
+      FriendType: 1
+    - mName: "\u0646\u0631\u06CC\u0645\u0627\u0646"
+      FriendType: 0
+    howToPlayText: "\u0627\u0633\u0645 \u062F\u0648\u0633\u062A\u062A\u0648 \u0627\u0646\u062A\u062E\u0627\u0628
+      \u06A9\u0646"
+  - location: 1
+    difficulty: 0
+    sampleFriendPic: {fileID: 21300000, guid: a338e69ea4e1bcd40a41bf4b88bfd75c, type: 3}
+    sampleFriendType: 1
+    Friends:
+    - mName: "\u0645\u062D\u0645\u062F"
+      FriendType: 0
+    - mName: "\u0631\u0636\u0627"
+      FriendType: 0
+    - mName: "\u0641\u0627\u0637\u0645\u0647"
+      FriendType: 1
+    - mName: "\u0646\u0631\u06CC\u0645\u0627\u0646"
+      FriendType: 0
+    howToPlayText: "\u0627\u0633\u0645 \u062F\u0648\u0633\u062A\u062A\u0648 \u0627\u0646\u062A\u062E\u0627\u0628
+      \u06A9\u0646"
+  - location: 1
+    difficulty: 1
+    sampleFriendPic: {fileID: 21300000, guid: a338e69ea4e1bcd40a41bf4b88bfd75c, type: 3}
+    sampleFriendType: 1
+    Friends:
+    - mName: "\u0645\u062D\u0645\u062F"
+      FriendType: 0
+    - mName: "\u0631\u0636\u0627"
+      FriendType: 0
+    - mName: "\u0641\u0627\u0637\u0645\u0647"
+      FriendType: 1
+    - mName: "\u0646\u0631\u06CC\u0645\u0627\u0646"
+      FriendType: 0
+    howToPlayText: "\u0627\u0633\u0645 \u062F\u0648\u0633\u062A\u062A\u0648 \u0627\u0646\u062A\u062E\u0627\u0628
+      \u06A9\u0646"
+  - location: 1
+    difficulty: 2
+    sampleFriendPic: {fileID: 21300000, guid: a338e69ea4e1bcd40a41bf4b88bfd75c, type: 3}
+    sampleFriendType: 1
+    Friends:
+    - mName: "\u0645\u062D\u0645\u062F"
+      FriendType: 0
+    - mName: "\u0631\u0636\u0627"
+      FriendType: 0
+    - mName: "\u0641\u0627\u0637\u0645\u0647"
+      FriendType: 1
+    - mName: "\u0646\u0631\u06CC\u0645\u0627\u0646"
+      FriendType: 0
+    howToPlayText: "\u0627\u0633\u0645 \u062F\u0648\u0633\u062A\u062A\u0648 \u0627\u0646\u062A\u062E\u0627\u0628
+      \u06A9\u0646"
+  - location: 2
+    difficulty: 0
+    sampleFriendPic: {fileID: 21300000, guid: a338e69ea4e1bcd40a41bf4b88bfd75c, type: 3}
+    sampleFriendType: 1
+    Friends:
+    - mName: "\u0645\u062D\u0645\u062F"
+      FriendType: 0
+    - mName: "\u0631\u0636\u0627"
+      FriendType: 0
+    - mName: "\u0641\u0627\u0637\u0645\u0647"
+      FriendType: 1
+    - mName: "\u0646\u0631\u06CC\u0645\u0627\u0646"
+      FriendType: 0
+    howToPlayText: "\u0627\u0633\u0645 \u062F\u0648\u0633\u062A\u062A\u0648 \u0627\u0646\u062A\u062E\u0627\u0628
+      \u06A9\u0646"
+  - location: 2
+    difficulty: 1
+    sampleFriendPic: {fileID: 21300000, guid: a338e69ea4e1bcd40a41bf4b88bfd75c, type: 3}
+    sampleFriendType: 1
+    Friends:
+    - mName: "\u0645\u062D\u0645\u062F"
+      FriendType: 0
+    - mName: "\u0631\u0636\u0627"
+      FriendType: 0
+    - mName: "\u0641\u0627\u0637\u0645\u0647"
+      FriendType: 1
+    - mName: "\u0646\u0631\u06CC\u0645\u0627\u0646"
+      FriendType: 0
+    howToPlayText: "\u0627\u0633\u0645 \u062F\u0648\u0633\u062A\u062A\u0648 \u0627\u0646\u062A\u062E\u0627\u0628
+      \u06A9\u0646"
+  - location: 2
+    difficulty: 2
+    sampleFriendPic: {fileID: 21300000, guid: a338e69ea4e1bcd40a41bf4b88bfd75c, type: 3}
+    sampleFriendType: 1
+    Friends:
+    - mName: "\u0645\u062D\u0645\u062F"
+      FriendType: 0
+    - mName: "\u0631\u0636\u0627"
+      FriendType: 0
+    - mName: "\u0641\u0627\u0637\u0645\u0647"
+      FriendType: 1
+    - mName: "\u0646\u0631\u06CC\u0645\u0627\u0646"
+      FriendType: 0
+    howToPlayText: "\u0627\u0633\u0645 \u062F\u0648\u0633\u062A\u062A\u0648 \u0627\u0646\u062A\u062E\u0627\u0628
+      \u06A9\u0646"
