@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8428995cf8774b65947b11e7a73d8501, type: 3}
   m_Name: FindDifferenceGame
   m_EditorClassIdentifier: Assembly-CSharp::FindDifferenceGame
-  howToPlayText: This is a test for how to play
+  howToPlayText: "\u062A\u0641\u0627\u0648\u062A \u0647\u0627 \u0631\u0648 \u067E\u06CC\u062F\u0627
+    \u06A9\u0646!"
   configurations:
   - location: 0
     difficulty: 0

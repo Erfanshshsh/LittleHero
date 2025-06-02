@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-public class ScaleGameHandler : MonoBehaviour
+public class ScaleGameHandler : GameHandler
 {
     public Transform spawnPoint;
     public Transform referenceItemSpawnPoint;
@@ -10,10 +10,11 @@ public class ScaleGameHandler : MonoBehaviour
 
     private int rights;
     private int wrongs;
-
+    private int _totalCount;
     private ScaleConfig.ZoneDifficultyConfig _zoneDConfig;
     private ScalePrefab _scalePrefab;
     private ScaleItem _sampleItem;
+
     private void Start()
     {
         var currentConfig = GameManager.Instance.currentLevelConfig as ScaleConfig;
@@ -22,6 +23,7 @@ public class ScaleGameHandler : MonoBehaviour
 
 
         _scalePrefab = Instantiate(_zoneDConfig.prefab, spawnPoint);
+        _totalCount = _scalePrefab.rightScaleItems.Count + _scalePrefab.wrongScaleItems.Count;
         _sampleItem = Instantiate(_zoneDConfig.sampleScaleItem, referenceItemSpawnPoint);
         _sampleItem.EnableRightOutlinable();
         UIManager.Instance.HowToPlayAndInGameProcedure(currentConfig.howToPlayText);
@@ -46,17 +48,13 @@ public class ScaleGameHandler : MonoBehaviour
                     rayCastItem.EnableRightOutlinable();
                     rayCastItem.enabled = false;
                     hit.collider.enabled = false;
-                    if (rights >= _scalePrefab.wrongScaleItems.Count)
-                    {
-                        DelayFinishGameBehaviour();
-                    }
+                    // if (rights >= _scalePrefab.wrongScaleItems.Count)
+                    //     DelayFinishGameBehaviour();
                 }
                 else
                 {
                     wrongs++;
                     hit.collider.enabled = false;
-                    // var scale = rayCastItem.transform.localScale.x;
-                    // StaticTweeners.DoYoyoScale(rayCastItem.transform, rayCastItem.transform.localScale );
                     UIManager.Instance.inGameViewInstance.AddToWrongs(wrongs);
                     rayCastItem.EnableWrongOutlinable();
                 }
@@ -68,8 +66,69 @@ public class ScaleGameHandler : MonoBehaviour
     private async UniTaskVoid DelayFinishGameBehaviour()
     {
         await UniTask.DelayFrame(30);
+        var gameState = Common.GameWinState.Neutral;
+        gameState = rights >= wrongs ? Common.GameWinState.Win : Common.GameWinState.Loose;
         var finishData = new Common.LevelFinishData(rights, wrongs,
-            (int)Timer.Instance.timeRemaining, rights >= wrongs);
+            (int)Timer.Instance.timeRemaining, gameState);
         GameManager.Instance.OnFinishGameAsync(finishData);
     }
+
+    public override void CheckForFinish()
+    {
+        base.CheckForFinish();
+        var gameState = Common.GameWinState.Neutral;
+        
+        if (rights >= wrongs && rights >= _scalePrefab.wrongScaleItems.Count)
+            gameState = Common.GameWinState.Win;
+        else if (wrongs >= rights && rights+wrongs >= _totalCount)
+            gameState = Common.GameWinState.Loose;
+
+
+        var finishData = new Common.LevelFinishData(rights, wrongs,
+            (int)Timer.Instance.timeRemaining, gameState);
+        UIManager.Instance.ShowYouWon(finishData);
+        if (gameState == Common.GameWinState.Win)
+            GameManager.Instance.OnWinGame();
+    }
+
+    #region Singleton
+
+    public bool isDontDestroyOnLoad = false;
+    private static ScaleGameHandler _instance;
+
+    public static ScaleGameHandler Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = FindFirstObjectByType<ScaleGameHandler>();
+
+                if (_instance == null)
+                {
+                    Debug.LogError($"No instance of {typeof(ScaleGameHandler)} found in the scene.");
+                }
+            }
+
+            return _instance;
+        }
+    }
+
+    protected virtual void Awake()
+    {
+        if (_instance == null)
+        {
+            _instance = this as ScaleGameHandler;
+            if (isDontDestroyOnLoad)
+            {
+                DontDestroyOnLoad(gameObject);
+            }
+        }
+        else if (_instance != this)
+        {
+            Destroy(gameObject); // Destroy duplicate instances
+        }
+    }
+
+    #endregion
 }

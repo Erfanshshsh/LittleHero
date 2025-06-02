@@ -1,11 +1,8 @@
-using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
-using EPOOutline;
 using UnityEngine;
-using UnityEngine.Events;
 
-public class ChooseSimilarGameHandler : MonoBehaviour
+public class ChooseSimilarGameHandler : GameHandler
 {
     public Transform sampleSpawnTf;
     public List<Transform> spawnPoints = new List<Transform>();
@@ -54,10 +51,10 @@ public class ChooseSimilarGameHandler : MonoBehaviour
                     rayCastItem.EnableRightOutlinable();
 
                     rayCastItem.enabled = false;
-                    if (rights >= _zoneDConfig.bottomCorrectItems.Count)
-                    {
-                        DelayFinishGameBehaviour();
-                    }
+                    // if (rights >= _zoneDConfig.bottomCorrectItems.Count)
+                    // {
+                    //     DelayFinishGameBehaviour();
+                    // }
                 }
                 else
                 {
@@ -75,8 +72,72 @@ public class ChooseSimilarGameHandler : MonoBehaviour
     private async UniTaskVoid DelayFinishGameBehaviour()
     {
         await UniTask.DelayFrame(30);
+        var gameState = Common.GameWinState.Neutral;
+        gameState = rights >= wrongs ? Common.GameWinState.Win : Common.GameWinState.Loose;
+        
         var finishData = new Common.LevelFinishData(rights, wrongs,
-            (int)Timer.Instance.timeRemaining, rights >= wrongs);
+            (int)Timer.Instance.timeRemaining, gameState);
         GameManager.Instance.OnFinishGameAsync(finishData);
     }
+    
+    public override void CheckForFinish()
+    {
+        base.CheckForFinish();
+        var gameState = Common.GameWinState.Neutral;
+        
+        if (rights >= _zoneDConfig.bottomCorrectItems.Count)
+        {
+            gameState = Common.GameWinState.Win;
+
+        }
+
+        var finishData = new Common.LevelFinishData(rights, wrongs,
+            (int)Timer.Instance.timeRemaining, gameState);
+        UIManager.Instance.ShowYouWon(finishData);
+        if (gameState == Common.GameWinState.Win)
+        {
+            GameManager.Instance.OnWinGame();
+        }
+    }
+    
+    #region Singleton
+
+    public bool isDontDestroyOnLoad = false;
+    private static ChooseSimilarGameHandler _instance;
+
+    public static ChooseSimilarGameHandler Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = FindFirstObjectByType<ChooseSimilarGameHandler>();
+
+                if (_instance == null)
+                {
+                    Debug.LogError($"No instance of {typeof(ChooseSimilarGameHandler)} found in the scene.");
+                }
+            }
+
+            return _instance;
+        }
+    }
+
+    protected virtual void Awake()
+    {
+        if (_instance == null)
+        {
+            _instance = this as ChooseSimilarGameHandler;
+            if (isDontDestroyOnLoad)
+            {
+                DontDestroyOnLoad(gameObject);
+            }
+        }
+        else if (_instance != this)
+        {
+            Destroy(gameObject); // Destroy duplicate instances
+        }
+    }
+
+    #endregion
 }

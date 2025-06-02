@@ -2289,7 +2289,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87a1f520c1b74449ab3cca919fbbfdb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDontDestroyOnLoad: 0
   spawnPoints:
   - {fileID: 1474713878}
   - {fileID: 1272243296}
@@ -2301,9 +2300,11 @@ MonoBehaviour:
   - {fileID: 1640594114}
   - {fileID: 775657483}
   - {fileID: 5256449}
-  inBoxCount: 0
+  rightInBoxCount: 0
+  wrongInBoxCount: 0
   oddsContainer: {fileID: 7616764410860981109}
   evensContainer: {fileID: 7616764409791421049}
+  isDontDestroyOnLoad: 0
 --- !u!1001 &957584297
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -3,7 +3,7 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TypoGameHandler : Singleton<TypoGameHandler>
+public class TypoGameHandler : GameHandler
 {
     [SerializeField] private RectTransform stringParent;
     private List<TypoItem> _typoItems = new List<TypoItem>();
@@ -74,8 +74,8 @@ public class TypoGameHandler : Singleton<TypoGameHandler>
     {
         rightScore++;
         UIManager.Instance.inGameViewInstance.AddToRights(rightScore);
-        if (rightScore >= _totalWrongCount)
-            DelayFinishGameBehaviour().Forget();
+        // if (rightScore >= _totalWrongCount)
+        //     DelayFinishGameBehaviour().Forget();
 
     }
 
@@ -92,8 +92,67 @@ public class TypoGameHandler : Singleton<TypoGameHandler>
     private async UniTaskVoid DelayFinishGameBehaviour()
     {
         await UniTask.DelayFrame(30);
+        var gameState = Common.GameWinState.Neutral;
+        gameState = rightScore >= wrongScore ? Common.GameWinState.Win : Common.GameWinState.Loose;
         var finishData = new Common.LevelFinishData(rightScore, wrongScore,
-            (int)Timer.Instance.timeRemaining, rightScore >= wrongScore);
+            (int)Timer.Instance.timeRemaining, gameState);
         GameManager.Instance.OnFinishGameAsync(finishData);
     }
+    
+    public override void CheckForFinish()
+    {
+        base.CheckForFinish();
+        var gameState = Common.GameWinState.Neutral;
+        if (rightScore >= _totalWrongCount)
+            gameState = Common.GameWinState.Win;
+        else
+            gameState = Common.GameWinState.Loose;
+
+        var finishData = new Common.LevelFinishData(rightScore, wrongScore,
+            (int)Timer.Instance.timeRemaining, gameState);
+        UIManager.Instance.ShowYouWon(finishData);
+        if (gameState == Common.GameWinState.Win)
+            GameManager.Instance.OnWinGame();
+    }
+    
+    #region Singleton
+
+    public bool isDontDestroyOnLoad = false;
+    private static TypoGameHandler _instance;
+
+    public static TypoGameHandler Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = FindFirstObjectByType<TypoGameHandler>();
+
+                if (_instance == null)
+                {
+                    Debug.LogError($"No instance of {typeof(TypoGameHandler)} found in the scene.");
+                }
+            }
+
+            return _instance;
+        }
+    }
+
+    protected virtual void Awake()
+    {
+        if (_instance == null)
+        {
+            _instance = this as TypoGameHandler;
+            if (isDontDestroyOnLoad)
+            {
+                DontDestroyOnLoad(gameObject);
+            }
+        }
+        else if (_instance != this)
+        {
+            Destroy(gameObject); // Destroy duplicate instances
+        }
+    }
+
+    #endregion
 }

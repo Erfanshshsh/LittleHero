@@ -44,14 +44,14 @@ public class Common
         public int RightCount;
         public int WrongCount;
         public int TimeCount;
-        public bool IsWon;
+        public GameWinState gameWinState;
 
-        public LevelFinishData(int rightCount, int wrongCount, int timeCount, bool isWon)
+        public LevelFinishData(int rightCount, int wrongCount, int timeCount, GameWinState mGameWinState)
         {
             RightCount = rightCount;
             WrongCount = wrongCount;
             TimeCount = timeCount;
-            IsWon = isWon;
+            gameWinState = mGameWinState;
         }
     }
     
@@ -59,6 +59,13 @@ public class Common
     {
         even,
         odd,
+    }
+    
+    public enum GameWinState
+    {
+        Neutral,
+        Win,
+        Loose,
     }
 
     

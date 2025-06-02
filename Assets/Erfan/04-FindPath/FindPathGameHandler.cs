@@ -4,7 +4,7 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 
-public class FindPathGameHandler : Singleton<FindPathGameHandler>
+public class FindPathGameHandler : GameHandler
 {
     public Transform levelPrefabTf;
 
@@ -69,11 +69,11 @@ public class FindPathGameHandler : Singleton<FindPathGameHandler>
     {
         overallCounter++;
 
-        if (overallCounter >= _zoneDConfig.FindPathLevel.splines.Count)
-        {
-            DelayFinishGameBehaviour();
-            return true;
-        }
+        // if (overallCounter >= _zoneDConfig.FindPathLevel.splines.Count)
+        // {
+        //     DelayFinishGameBehaviour();
+        //     return true;
+        // }
 
         return false;
     }
@@ -82,8 +82,75 @@ public class FindPathGameHandler : Singleton<FindPathGameHandler>
     private async UniTaskVoid DelayFinishGameBehaviour()
     {
         await UniTask.DelayFrame(30);
+        var gameState = Common.GameWinState.Neutral;
+        gameState = rightScore >= wrongScore ? Common.GameWinState.Win : Common.GameWinState.Loose;
         var finishData = new Common.LevelFinishData(rightScore, wrongScore,
-            (int)Timer.Instance.timeRemaining, rightScore >= wrongScore);
+            (int)Timer.Instance.timeRemaining, gameState);
         GameManager.Instance.OnFinishGameAsync(finishData);
     }
+
+    public override void CheckForFinish()
+    {
+        base.CheckForFinish();
+        var gameState = Common.GameWinState.Neutral;
+
+        if (rightScore >= wrongScore && overallCounter >= 5)
+        {
+            gameState = Common.GameWinState.Win;
+        }
+        else if(wrongScore >= rightScore && overallCounter >= 5)
+        {
+            gameState = Common.GameWinState.Loose;
+        }
+
+
+        var finishData = new Common.LevelFinishData(rightScore, wrongScore,
+            (int)Timer.Instance.timeRemaining, gameState);
+        UIManager.Instance.ShowYouWon(finishData);
+        if (gameState == Common.GameWinState.Win)
+        {
+            GameManager.Instance.OnWinGame();
+        }
+    }
+
+    #region Singleton
+
+    public bool isDontDestroyOnLoad = false;
+    private static FindPathGameHandler _instance;
+
+    public static FindPathGameHandler Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = FindFirstObjectByType<FindPathGameHandler>();
+
+                if (_instance == null)
+                {
+                    Debug.LogError($"No instance of {typeof(FindPathGameHandler)} found in the scene.");
+                }
+            }
+
+            return _instance;
+        }
+    }
+
+    protected virtual void Awake()
+    {
+        if (_instance == null)
+        {
+            _instance = this as FindPathGameHandler;
+            if (isDontDestroyOnLoad)
+            {
+                DontDestroyOnLoad(gameObject);
+            }
+        }
+        else if (_instance != this)
+        {
+            Destroy(gameObject); // Destroy duplicate instances
+        }
+    }
+
+    #endregion
 }

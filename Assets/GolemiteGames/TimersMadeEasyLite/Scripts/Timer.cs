@@ -1,7 +1,9 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 
 public class Timer : Singleton<Timer>
@@ -59,8 +61,22 @@ public class Timer : Singleton<Timer>
     bool timerRunning = false;
     bool timerPaused = false;
     public double timeRemaining;
-    
 
+
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        ResetTimer();
+    }
     private void Awake()
     {
         if(!standardText)

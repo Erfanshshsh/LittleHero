@@ -12,9 +12,13 @@ public class NumbersContainer : MonoBehaviour
             if (dragObject.numbersGameItemType == itemType)
             {
 
-                NumbersGameHandler.Instance.inBoxCount++;
+                NumbersGameHandler.Instance.rightInBoxCount++;
                 NumbersGameHandler.Instance.UpdateScore();
-                
+            }
+            else
+            {
+                NumbersGameHandler.Instance.wrongInBoxCount++;
+                NumbersGameHandler.Instance.UpdateScore();
             }
         }
     }
@@ -25,7 +29,12 @@ public class NumbersContainer : MonoBehaviour
         {
             if (dragObject.numbersGameItemType == itemType)
             {
-                NumbersGameHandler.Instance.inBoxCount--;
+                NumbersGameHandler.Instance.rightInBoxCount--;
+                NumbersGameHandler.Instance.UpdateScore();
+            }
+            else
+            {
+                NumbersGameHandler.Instance.wrongInBoxCount--;
                 NumbersGameHandler.Instance.UpdateScore();
             }
         }

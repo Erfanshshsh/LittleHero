@@ -1,5 +1,6 @@
 using Joyixir.GameManager.UI;
 using RTLTMPro;
+using UnityEngine;
 using UnityEngine.UI;
 
 
@@ -7,10 +8,12 @@ public class InGameView : View
 {
     public RTLTextMeshPro userRights;
     public RTLTextMeshPro userWrongs;
+    public GameObject wrongsGo;
     public Timer timer;
     public Button restartButton;
     public Button homeButton;
     public Button howToPlayButton;
+    public Button checkFinishButton;
 
     public int totalRights;
     
@@ -20,6 +23,9 @@ public class InGameView : View
         restartButton.onClick.AddListener(() => GameManager.Instance.RestartCurrentLevel());
         howToPlayButton.onClick.AddListener(() => 
             UIManager.Instance.ShowHowToPlay());
+
+        checkFinishButton.onClick.AddListener(() => GameManager.Instance.currentGameHandler.CheckForFinish());
+
     }
     
     private void OnDisable()
@@ -27,7 +33,7 @@ public class InGameView : View
         homeButton.onClick.RemoveAllListeners();
         restartButton.onClick.RemoveAllListeners();
         howToPlayButton.onClick.RemoveAllListeners();
-
+        checkFinishButton.onClick.RemoveAllListeners();
     }
 
     
@@ -64,5 +70,10 @@ public class InGameView : View
     public void StartTimer()
     {
         timer.StartTimer();
+    }
+
+    public void HideWrongs()
+    {
+        wrongsGo.SetActive(false);
     }
 }

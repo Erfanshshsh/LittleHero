@@ -1,14 +1,10 @@
-using System;
 using Cysharp.Threading.Tasks;
-using RTLTMPro;
 using UnityEngine;
 
-
-public class FindDifferenceGameHandler : Singleton<FindDifferenceGameHandler>
+public class FindDifferenceGameHandler : GameHandler
 {
     public Transform prefabParent;
     public Camera mainCamera;
-    public RTLTextMeshPro levelText;
 
     private int _diffCount;
     private int _foundCount = 0;
@@ -25,10 +21,9 @@ public class FindDifferenceGameHandler : Singleton<FindDifferenceGameHandler>
         instance.transform.localPosition = Vector3.zero;
         _diffCount = instance.diffItems.Count;
         UIManager.Instance.HowToPlayAndInGameProcedure(currentConfig.howToPlayText,
-            () => { });
+            () => {UIManager.Instance.inGameViewInstance.HideWrongs(); });
         UpdateText();
     }
-
 
 
 
@@ -50,11 +45,11 @@ public class FindDifferenceGameHandler : Singleton<FindDifferenceGameHandler>
                     item.OnFound();
                     _foundCount++;
                     UpdateText();
-                    if (_foundCount >= _diffCount)
-                    {
-                        Debug.Log("Level Won");
-                        DelayFinishGameBehaviour();
-                    }
+                    // if (_foundCount >= _diffCount)
+                    // {
+                    //     Debug.Log("Level Won");
+                    //     DelayFinishGameBehaviour();
+                    // }
                 }
             }
         }
@@ -62,14 +57,74 @@ public class FindDifferenceGameHandler : Singleton<FindDifferenceGameHandler>
     
     private void UpdateText()
     {
-        levelText.text = $"{_foundCount}/{_diffCount}";
+        UIManager.Instance.inGameViewInstance.userRights.text = $"{_foundCount}/{_diffCount}";
     }
     
     private async UniTaskVoid DelayFinishGameBehaviour()
     {
         await UniTask.DelayFrame(30);
         var finishData = new Common.LevelFinishData(_foundCount, 0,
-            (int)Timer.Instance.timeRemaining, true);
+            (int)Timer.Instance.timeRemaining, Common.GameWinState.Win);
         GameManager.Instance.OnFinishGameAsync(finishData);
     }
+    
+    public override void CheckForFinish()
+    {
+        base.CheckForFinish();
+        var gameState = Common.GameWinState.Neutral;
+        
+        if (_foundCount >= _diffCount)
+        {
+            gameState = Common.GameWinState.Win;
+        }
+
+        var finishData = new Common.LevelFinishData(_foundCount, 0,
+            (int)Timer.Instance.timeRemaining, gameState);
+        UIManager.Instance.ShowYouWon(finishData);
+        if (gameState == Common.GameWinState.Win)
+        {
+            GameManager.Instance.OnWinGame();
+        }
+    }
+    
+    #region Singleton
+
+    public bool isDontDestroyOnLoad = false;
+    private static FindDifferenceGameHandler _instance;
+
+    public static FindDifferenceGameHandler Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = FindFirstObjectByType<FindDifferenceGameHandler>();
+
+                if (_instance == null)
+                {
+                    Debug.LogError($"No instance of {typeof(FindDifferenceGameHandler)} found in the scene.");
+                }
+            }
+
+            return _instance;
+        }
+    }
+
+    protected virtual void Awake()
+    {
+        if (_instance == null)
+        {
+            _instance = this as FindDifferenceGameHandler;
+            if (isDontDestroyOnLoad)
+            {
+                DontDestroyOnLoad(gameObject);
+            }
+        }
+        else if (_instance != this)
+        {
+            Destroy(gameObject); // Destroy duplicate instances
+        }
+    }
+
+    #endregion
 }

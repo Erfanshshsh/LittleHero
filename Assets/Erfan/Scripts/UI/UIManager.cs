@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Joyixir.GameManager.UI;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 
 public class UIManager : Singleton<UIManager>
@@ -16,6 +17,7 @@ public class UIManager : Singleton<UIManager>
 
     [NonSerialized] public InGameView inGameViewInstance;
     [NonSerialized] public HowToPlayView howToPlayViewInstance;
+    [NonSerialized] public WonView wonViewInstance;
 
     [PropertyTooltip("3 Different Layers for UI Views")] [FoldoutGroup("UI Containers")]
     public List<GameObject> containers;
@@ -23,8 +25,19 @@ public class UIManager : Singleton<UIManager>
     private void OnEnable()
     {
         CloseAllWindows();
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        CloseAllWindows();
+    }
 
     private View ShowWindow(View viewPrefab, ViewPriority priorityOrder, Transform customParent = null)
     {
@@ -58,7 +71,7 @@ public class UIManager : Singleton<UIManager>
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-        var wonViewInstance = (WonView)ShowWindow(wonView, ViewPriority.High);
+        wonViewInstance = (WonView)ShowWindow(wonView, ViewPriority.High);
         if (finishData != null)
             wonViewInstance.ShowLevelFinishData(finishData);
     }

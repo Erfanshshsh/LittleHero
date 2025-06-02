@@ -13,7 +13,11 @@ public class Container : MonoBehaviour
             {
                 ArrangingGameHandler.Instance.inBoxCount++;
                 ArrangingGameHandler.Instance.UpdateScore();
-                
+            }
+            else
+            {
+                ArrangingGameHandler.Instance.wrongInBoxCount++;
+                ArrangingGameHandler.Instance.UpdateScore();
             }
         }
 
@@ -26,6 +30,11 @@ public class Container : MonoBehaviour
             if (dragObject.arrangingGameItemType == itemType)
             {
                 ArrangingGameHandler.Instance.inBoxCount--;
+                ArrangingGameHandler.Instance.UpdateScore();
+            }
+            else
+            {
+                ArrangingGameHandler.Instance.wrongInBoxCount--;
                 ArrangingGameHandler.Instance.UpdateScore();
             }
         }

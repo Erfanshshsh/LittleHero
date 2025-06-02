@@ -1,10 +1,10 @@
 using System;
+using System.Collections.Generic;
 using DG.Tweening;
 using DG.Tweening.Core;
 using DG.Tweening.Plugins.Options;
 using RTLTMPro;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 
 public static class StaticUtils
@@ -137,7 +137,8 @@ public static class StaticUtils
 
         float duration = endValue.Length * timePerCharacter;
 
-        TweenerCore<string, string, StringOptions> t = DOTween.To(() => target.text, x => target.text = x, endValue, duration);
+        TweenerCore<string, string, StringOptions> t = DOTween.To(() => target.text, x => target.text = x, endValue,
+            duration);
         t.SetOptions(richTextEnabled, scrambleMode, scrambleChars)
             .SetTarget(target);
 
@@ -152,16 +153,29 @@ public static class StaticUtils
 
     public static Vector3 GetRandomVector3(Vector3 a, Vector3 b)
     {
-        var x = Random.Range(a.x, b.x);
-        var y = Random.Range(a.y, b.y);
-        var z = Random.Range(a.z, b.z);
+        var x = UnityEngine.Random.Range(a.x, b.x);
+        var y = UnityEngine.Random.Range(a.y, b.y);
+        var z = UnityEngine.Random.Range(a.z, b.z);
 
         return new Vector3(x, y, z);
     }
 
+    public static void ShuffleList<T>(List<T> list)
+    {
+        System.Random rng = new System.Random(); // You can seed with a fixed value for predictable results
+        int n = list.Count;
+
+        while (n > 1)
+        {
+            n--;
+            int k = rng.Next(n + 1);
+            // Swap
+            (list[k], list[n]) = (list[n], list[k]);
+        }
+    }
 
     #region UI
-    
+
     public static bool AreUIRectsOverlappingFast(RectTransform rect1, RectTransform rect2, float scaleFactor = 1,
         float secondScaleFactor = 1)
     {
