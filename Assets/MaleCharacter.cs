@@ -59,10 +59,11 @@ public class MaleCharacter : Singleton<MaleCharacter>
 
         if (other.gameObject.CompareTag("SchoolZone"))
         {
-            UIManager.Instance.ShowChooseGameView();
             DisableController();
             var zone = other.gameObject.GetComponent<Zone>();
             GameManager.Instance.currentLocation = zone.currentLocation;
+            GameManager.Instance.currentLocationName = zone.zoneName;
+            UIManager.Instance.ShowChooseGameView();
         }
     }
 

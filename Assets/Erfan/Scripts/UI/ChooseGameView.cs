@@ -17,6 +17,7 @@ public class ChooseGameView : View
     public Transform difficultyPanel;
     public Transform gamesPanel;
     public GameObject playLastDifficultyFirst;
+    public RTLTextMeshPro zoneText;
 
     private void OnEnable()
     {
@@ -49,6 +50,11 @@ public class ChooseGameView : View
         hardButton.onClick.RemoveAllListeners();
         backButton.onClick.RemoveAllListeners();
         closeButton.onClick.RemoveAllListeners();
+    }
+
+    private void Start()
+    {
+        zoneText.text = GameManager.Instance.currentLocationName;
     }
 
     private void OnClickBackButton()

@@ -1,3 +1,4 @@
+using System;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -6,6 +7,7 @@ public class GameManager : Singleton<GameManager>
 {
     public LevelConfig currentLevelConfig;
     public Common.Location currentLocation;
+    public string currentLocationName;
     public Common.Difficulty currentDifficulty;
     public int gameIndex;
     public GameHandler currentGameHandler;
@@ -13,7 +15,16 @@ public class GameManager : Singleton<GameManager>
     protected override void Awake()
     {
         base.Awake();
-        currentGameHandler = FindObjectsByType<GameHandler>(FindObjectsSortMode.None)[0];
+        try
+        {
+            currentGameHandler = FindObjectsByType<GameHandler>(FindObjectsSortMode.None)[0];
+        }
+        catch (IndexOutOfRangeException)
+        {
+            // Handle the case where no GameHandler is found
+            Debug.LogWarning("No GameHandler found in the scene.");
+            currentGameHandler = null; // Or handle it differently based on your needs
+        }
     }
 
     public void OnGameCardClicked(int cardIndex, LevelConfig levelConfig)
@@ -21,9 +32,9 @@ public class GameManager : Singleton<GameManager>
         currentLevelConfig = levelConfig;
         gameIndex = cardIndex;
         SceneManager.sceneLoaded += OnSceneLoaded;
-        LoadScene(cardIndex+1);
+        LoadScene(cardIndex + 1);
     }
-    
+
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         currentGameHandler = FindObjectsByType<GameHandler>(FindObjectsSortMode.None)[0];
@@ -44,7 +55,6 @@ public class GameManager : Singleton<GameManager>
     }
 
 
-
     public void LoadScene(int sceneIndex)
     {
         UIManager.Instance.CloseAllWindows();
@@ -55,6 +65,4 @@ public class GameManager : Singleton<GameManager>
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
-
-
 }

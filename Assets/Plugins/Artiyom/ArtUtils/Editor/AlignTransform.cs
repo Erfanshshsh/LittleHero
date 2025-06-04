@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AlignTransform : MonoBehaviour
 {
-    [MenuItem("Art Tools/Align Transform", false, 0)]
+    [MenuItem("Art Tools/Align Transform %#t", false, 0)]
     static void PerformTransformAlign()
     {
         var selectedObjects = Selection.objects.OfType<GameObject>().ToArray();
