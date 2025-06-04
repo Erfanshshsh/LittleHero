@@ -57,10 +57,11 @@ public class MaleCharacter : Singleton<MaleCharacter>
             onIceCream.RaiseEvent();
         }
 
-        if (other.gameObject.CompareTag("SchoolZone"))
+        if (other.gameObject.CompareTag("Zone"))
         {
             DisableController();
             var zone = other.gameObject.GetComponent<Zone>();
+
             GameManager.Instance.currentLocation = zone.currentLocation;
             GameManager.Instance.currentLocationName = zone.zoneName;
             UIManager.Instance.ShowChooseGameView();

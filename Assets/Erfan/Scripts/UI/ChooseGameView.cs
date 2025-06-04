@@ -81,14 +81,22 @@ public void OnClickDifficultyButton(Common.Difficulty difficulty)
 
 public void OnButtonClick(int cardIndex, LevelConfig levelConfig)
 {
+    if (GameProgressManager.IsDifferentZoneAlreadyStarted(GameManager.Instance.currentDifficulty, GameManager.Instance.currentLocation))
+    {
+        var c = GameProgressManager.GetZoneStartedName(GameManager.Instance.currentDifficulty);
+        var d = StaticUtils.ConvertZoneToFarsiName(c);
+        UIManager.Instance.ShowText($"اول همه ی بازی های قبلی {d} رو تموم کن!");
+        return;
+    }
     var currentDifficulty = (int)GameManager.Instance.currentDifficulty;
     if (currentDifficulty - 1 >= 0)
     {
         var previousDifficulty = (Common.Difficulty)currentDifficulty - 1;
-        var isPrevDifficultyPlayed = GameProgressManager.HasGameBeenPlayed(cardIndex,
-            GameManager.Instance.currentLocation,
-            previousDifficulty);
-        if (isPrevDifficultyPlayed)
+        // var isPrevDifficultyPlayed = GameProgressManager.HasGameBeenPlayed(cardIndex,
+        //     GameManager.Instance.currentLocation,
+        //     previousDifficulty);
+        var isAllPrevDifficultiesPlayed = GameProgressManager.HasAllPrevDifficultiesPlayed(previousDifficulty);
+        if (isAllPrevDifficultiesPlayed)
         {
             GameManager.Instance.OnGameCardClicked(cardIndex, levelConfig);
         }
@@ -122,6 +130,8 @@ public void InitializeGames()
         }
     }
 }
+
+
 
 
 protected override void OnBackBtn()

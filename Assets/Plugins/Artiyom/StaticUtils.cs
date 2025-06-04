@@ -173,6 +173,23 @@ public static class StaticUtils
             (list[k], list[n]) = (list[n], list[k]);
         }
     }
+    
+    public static string ConvertZoneToFarsiName(string zoneName)
+    {
+        if (zoneName == "School")
+        {
+            return "مدرسه";
+        }
+        else if (zoneName == "Hospital")
+        {
+            return "بیمارستان";
+        }
+        else if (zoneName == "AmusementPark")
+        {
+            return "شهربازی";
+        }
+        return "";
+    }
 
     #region UI
 

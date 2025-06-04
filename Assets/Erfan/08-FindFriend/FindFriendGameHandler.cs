@@ -7,37 +7,25 @@ public class FindFriendGameHandler : GameHandler
     private int _wrongCounter;
     private int _rightCounter;
     private FindFriendConfig.FriendType sampleFriendType;
-    public FindFriendTextElement textElementPrefab;
-    public Transform textParent;
-    public Image friendImage;
+   
+    // public Image friendImage;
     private void Start()
     {
-        textElementPrefab.gameObject.SetActive(false);
+        
         var currentConfig = GameManager.Instance.currentLevelConfig as FindFriendConfig;
         _zoneDConfig = currentConfig.GetConfig(GameManager.Instance.currentLocation,
             GameManager.Instance.currentDifficulty);
-        friendImage.sprite = _zoneDConfig.sampleFriendPic;
+        var findFriendView = UIManager.Instance.ShowFindFriendView();
+        findFriendView.Initialize(_zoneDConfig);
         sampleFriendType = _zoneDConfig.sampleFriendType;
-        foreach (var mFriend in _zoneDConfig.Friends)
-        {
-            var friend = Instantiate(textElementPrefab, textParent);
-            friend.gameObject.SetActive(true);
-            friend.SetText(mFriend.mName);
-            friend.friendType = mFriend.FriendType;
-            friend.onClick += OnClickFriend;
-
-        }
-        
-
         UIManager.Instance.HowToPlayAndInGameProcedure(_zoneDConfig.howToPlayText,
             () => {  });
     }
     
     
     
-    private void OnClickFriend(FindFriendConfig.FriendType friendType)
+    public void OnClickFriend(FindFriendConfig.FriendType friendType)
     {
-
         if (friendType == sampleFriendType)
         {
             UIManager.Instance.inGameViewInstance.AddToRights(1);
@@ -47,8 +35,6 @@ public class FindFriendGameHandler : GameHandler
         {
             _wrongCounter++;
             UIManager.Instance.inGameViewInstance.AddToWrongs(_wrongCounter);
-
-            
         }
     }
     
@@ -64,7 +50,6 @@ public class FindFriendGameHandler : GameHandler
         else
         {
             gameState = Common.GameWinState.Loose;
-
         }
 
         var finishData = new Common.LevelFinishData(_rightCounter, _wrongCounter,

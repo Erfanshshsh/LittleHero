@@ -29,6 +29,7 @@ public class GameManager : Singleton<GameManager>
 
     public void OnGameCardClicked(int cardIndex, LevelConfig levelConfig)
     {
+        GameProgressManager.SetZoneStarted(currentDifficulty, currentLocation);
         currentLevelConfig = levelConfig;
         gameIndex = cardIndex;
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -52,6 +53,10 @@ public class GameManager : Singleton<GameManager>
     {
         Timer.Instance.enabled = false;
         GameProgressManager.MarkGamePlayed(gameIndex, currentLocation, currentDifficulty);
+        if (GameProgressManager.AreAllGamesCompleted(currentLocation, currentDifficulty))
+        {
+            GameProgressManager.DeleteZoneStarted(currentDifficulty);
+        }
     }
 
 

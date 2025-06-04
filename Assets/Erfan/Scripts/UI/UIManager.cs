@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Joyixir.GameManager.UI;
+using RTLTMPro;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -14,6 +15,8 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] private WonView wonView;
     [SerializeField] private HowToPlayView howToPlayView;
     [SerializeField] private SelectNumberView selectNumberView;
+    [SerializeField] private FindFriendView findFriendView;
+    [SerializeField] private TextElement popUpTextPrefab;
 
     [NonSerialized] public InGameView inGameViewInstance;
     [NonSerialized] public HowToPlayView howToPlayViewInstance;
@@ -109,6 +112,12 @@ public class UIManager : Singleton<UIManager>
         var viewIns = (SelectNumberView)ShowWindow(selectNumberView, ViewPriority.High);
         return viewIns;
     }
+    
+    public FindFriendView ShowFindFriendView()
+    {
+        var viewIns = (FindFriendView)ShowWindow(findFriendView, ViewPriority.High);
+        return viewIns;
+    }
 
     public void CloseAllWindows()
     {
@@ -130,5 +139,16 @@ public class UIManager : Singleton<UIManager>
         Low = 0,
         Medium = 1,
         High = 2
+    }
+
+    public async void ShowText(string mName)
+    {
+        var textElement = Instantiate(popUpTextPrefab, containers[2].transform);
+        textElement.transform.localScale = Vector3.zero;
+        textElement.gameObject.SetActive(true);
+        textElement.SetText(mName);
+        await StaticTweeners.AnimateUp(textElement.transform, 1, 1.2f);
+        await StaticTweeners.AnimateDown(textElement.transform);
+        Destroy(textElement.gameObject);
     }
 }
