@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FindDifferenceGame
   howToPlayText: "\u062A\u0641\u0627\u0648\u062A \u0647\u0627 \u0631\u0648 \u067E\u06CC\u062F\u0627
     \u06A9\u0646!"
+  gameName: "\u067E\u06CC\u062F\u0627 \u06A9\u0631\u062F\u0646 \u062A\u0641\u0627\u0648\u062A"
   configurations:
   - location: 0
     difficulty: 0

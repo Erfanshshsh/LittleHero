@@ -5,8 +5,8 @@ public class GameSelectionButton : MonoBehaviour
 {
     public UIEffect uiEffect;
     public GameObject isPlayedText;
-    public LevelConfig levelConfig;
-
+    public Common.GameType gameType;
+    
     public void SetActive()
     {
         uiEffect.toneFilter = ToneFilter.None;

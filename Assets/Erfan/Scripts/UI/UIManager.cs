@@ -16,6 +16,9 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] private HowToPlayView howToPlayView;
     [SerializeField] private SelectNumberView selectNumberView;
     [SerializeField] private FindFriendView findFriendView;
+    [SerializeField] private StatisticsView statisticsView;
+   
+    
     [SerializeField] private TextElement popUpTextPrefab;
 
     [NonSerialized] public InGameView inGameViewInstance;
@@ -118,7 +121,14 @@ public class UIManager : Singleton<UIManager>
         var viewIns = (FindFriendView)ShowWindow(findFriendView, ViewPriority.High);
         return viewIns;
     }
-
+    
+    [Button]
+    public void ShowStatisticsView(Common.Difficulty currentDifficulty, Common.Location currentLocation)
+    {
+        GameManager.Instance.DisableController();
+        var viewIns = (StatisticsView)ShowWindow(statisticsView, ViewPriority.High);
+        viewIns.Initialize(currentDifficulty, currentLocation);
+    }
     public void CloseAllWindows()
     {
         for (var i = 0; i < windowInstances.Count; i++)
@@ -151,4 +161,6 @@ public class UIManager : Singleton<UIManager>
         await StaticTweeners.AnimateDown(textElement.transform);
         Destroy(textElement.gameObject);
     }
+
+
 }

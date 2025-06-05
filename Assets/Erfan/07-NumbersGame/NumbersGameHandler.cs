@@ -14,10 +14,10 @@ public class NumbersGameHandler : GameHandler
     private NumbersGameConfig.ZoneDifficultyConfig _zoneDConfig;
     public NumbersContainer oddsContainer;
     public NumbersContainer evensContainer;
-
+    NumbersGameConfig currentConfig;
     private void Start()
     {
-        var currentConfig = GameManager.Instance.currentLevelConfig as NumbersGameConfig;
+        currentConfig = GameManager.Instance.currentLevelConfig as NumbersGameConfig;
         _zoneDConfig = currentConfig.GetConfig(GameManager.Instance.currentLocation,
             GameManager.Instance.currentDifficulty);
         items = _zoneDConfig.items;
@@ -51,7 +51,7 @@ public class NumbersGameHandler : GameHandler
     {
         await UniTask.DelayFrame(30);
         var finishData = new Common.LevelFinishData(rightInBoxCount, 0,
-            (int)Timer.Instance.timeRemaining, Common.GameWinState.Win);
+            (int)Timer.Instance.timeRemaining, Common.GameWinState.Win, checkBtnCount, currentConfig.gameName);
         GameManager.Instance.OnFinishGameAsync(finishData);
     }
 
@@ -65,11 +65,11 @@ public class NumbersGameHandler : GameHandler
         }
 
         var finishData = new Common.LevelFinishData(rightInBoxCount, wrongInBoxCount,
-            (int)Timer.Instance.timeRemaining, gameState);
+            (int)Timer.Instance.timeRemaining, gameState, checkBtnCount, currentConfig.gameName);
         UIManager.Instance.ShowYouWon(finishData);
         if (gameState == Common.GameWinState.Win)
         {
-            GameManager.Instance.OnWinGame();
+            GameManager.Instance.OnWinGame(finishData);
         }
     }
 

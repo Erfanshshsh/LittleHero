@@ -13,9 +13,10 @@ public class TypoGameHandler : GameHandler
     private RectTransform sentenceRect;
     private int _totalWrongCount = 0;
     private TypoConfig.ZoneDifficultyConfig _zoneDConfig;
+    TypoConfig currentConfig;
     private void Start()
     {
-        var currentConfig = GameManager.Instance.currentLevelConfig as TypoConfig;
+        currentConfig = GameManager.Instance.currentLevelConfig as TypoConfig;
         _zoneDConfig = currentConfig.GetConfig(GameManager.Instance.currentLocation, 
             GameManager.Instance.currentDifficulty);
         GetTotalWrongs();
@@ -95,7 +96,7 @@ public class TypoGameHandler : GameHandler
         var gameState = Common.GameWinState.Neutral;
         gameState = rightScore >= wrongScore ? Common.GameWinState.Win : Common.GameWinState.Loose;
         var finishData = new Common.LevelFinishData(rightScore, wrongScore,
-            (int)Timer.Instance.timeRemaining, gameState);
+            (int)Timer.Instance.timeRemaining,gameState , checkBtnCount, currentConfig.gameName);
         GameManager.Instance.OnFinishGameAsync(finishData);
     }
     
@@ -109,10 +110,10 @@ public class TypoGameHandler : GameHandler
             gameState = Common.GameWinState.Loose;
 
         var finishData = new Common.LevelFinishData(rightScore, wrongScore,
-            (int)Timer.Instance.timeRemaining, gameState);
+            (int)Timer.Instance.timeRemaining, gameState, checkBtnCount, currentConfig.gameName);
         UIManager.Instance.ShowYouWon(finishData);
         if (gameState == Common.GameWinState.Win)
-            GameManager.Instance.OnWinGame();
+            GameManager.Instance.OnWinGame(finishData);
     }
     
     #region Singleton

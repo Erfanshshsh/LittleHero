@@ -16,18 +16,22 @@ public class InGameView : View
     public Button checkFinishButton;
 
     public int totalRights;
-    
+    public int checkButtonCount;
+
     private void OnEnable()
     {
         homeButton.onClick.AddListener(() => GameManager.Instance.LoadScene(0));
         restartButton.onClick.AddListener(() => GameManager.Instance.RestartCurrentLevel());
-        howToPlayButton.onClick.AddListener(() => 
+        howToPlayButton.onClick.AddListener(() =>
             UIManager.Instance.ShowHowToPlay());
 
-        checkFinishButton.onClick.AddListener(() => GameManager.Instance.currentGameHandler.CheckForFinish());
-
+        checkFinishButton.onClick.AddListener(() =>
+        {
+            GameManager.Instance.currentGameHandler.CheckForFinish();
+            checkButtonCount++;
+        });
     }
-    
+
     private void OnDisable()
     {
         homeButton.onClick.RemoveAllListeners();
@@ -35,8 +39,6 @@ public class InGameView : View
         howToPlayButton.onClick.RemoveAllListeners();
         checkFinishButton.onClick.RemoveAllListeners();
     }
-
-    
 
 
     public void Initialize(int mTotalRights = 0)
@@ -49,6 +51,7 @@ public class InGameView : View
             userRights.text = $"{0} / {totalRights}";
         }
     }
+
     protected override void OnBackBtn()
     {
     }
@@ -61,7 +64,7 @@ public class InGameView : View
             userRights.text = $"{score} / {totalRights}";
         }
     }
-    
+
     public void AddToWrongs(int wrongs)
     {
         userWrongs.text = wrongs.ToString();

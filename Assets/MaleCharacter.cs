@@ -59,7 +59,7 @@ public class MaleCharacter : Singleton<MaleCharacter>
 
         if (other.gameObject.CompareTag("Zone"))
         {
-            DisableController();
+            GameManager.Instance.DisableController();
             var zone = other.gameObject.GetComponent<Zone>();
 
             GameManager.Instance.currentLocation = zone.currentLocation;
@@ -68,19 +68,7 @@ public class MaleCharacter : Singleton<MaleCharacter>
         }
     }
 
-    public void EnableController()
-    {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-        GetComponent<movement>().enabled = true;
-        GetComponent<Animator>().SetBool("MoveFWD", true);
-    }
 
-    public void DisableController()
-    {
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
-        GetComponent<movement>().enabled = false;
-        GetComponent<Animator>().SetBool("MoveFWD", false);
-    }
+
+
 }

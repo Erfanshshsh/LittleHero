@@ -10,9 +10,12 @@ public class FindDifferenceGameHandler : GameHandler
     private int _foundCount = 0;
     private FindDifferenceGame.ZoneDifficultyConfig _zoneDConfig;
     public Color levelRightSpriteColor;
+    private FindDifferenceGame currentConfig;
+    private bool _gameInitiated = false;
+
     private void Start()
     {
-        var currentConfig = GameManager.Instance.currentLevelConfig as FindDifferenceGame;
+        currentConfig = GameManager.Instance.currentLevelConfig as FindDifferenceGame;
         _zoneDConfig = currentConfig.GetConfig(GameManager.Instance.currentLocation,
             GameManager.Instance.currentDifficulty);
         var findDifferenceImage = _zoneDConfig.prefab;
@@ -21,14 +24,18 @@ public class FindDifferenceGameHandler : GameHandler
         instance.transform.localPosition = Vector3.zero;
         _diffCount = instance.diffItems.Count;
         UIManager.Instance.HowToPlayAndInGameProcedure(currentConfig.howToPlayText,
-            () => {UIManager.Instance.inGameViewInstance.HideWrongs(); });
-        UpdateText();
+            () =>
+            {
+                UIManager.Instance.inGameViewInstance.HideWrongs();
+                _gameInitiated = true;
+                UpdateText();
+            });
     }
-
 
 
     void Update()
     {
+        if (!_gameInitiated) return;
         if (Input.GetMouseButtonDown(0))
         {
             Vector2 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
@@ -54,39 +61,39 @@ public class FindDifferenceGameHandler : GameHandler
             }
         }
     }
-    
+
     private void UpdateText()
     {
         UIManager.Instance.inGameViewInstance.userRights.text = $"{_foundCount}/{_diffCount}";
     }
-    
+
     private async UniTaskVoid DelayFinishGameBehaviour()
     {
         await UniTask.DelayFrame(30);
         var finishData = new Common.LevelFinishData(_foundCount, 0,
-            (int)Timer.Instance.timeRemaining, Common.GameWinState.Win);
+            (int)Timer.Instance.timeRemaining, Common.GameWinState.Win, checkBtnCount, currentConfig.gameName);
         GameManager.Instance.OnFinishGameAsync(finishData);
     }
-    
+
     public override void CheckForFinish()
     {
         base.CheckForFinish();
         var gameState = Common.GameWinState.Neutral;
-        
+
         if (_foundCount >= _diffCount)
         {
             gameState = Common.GameWinState.Win;
         }
 
         var finishData = new Common.LevelFinishData(_foundCount, 0,
-            (int)Timer.Instance.timeRemaining, gameState);
+            (int)Timer.Instance.timeRemaining, gameState, checkBtnCount, currentConfig.gameName);
         UIManager.Instance.ShowYouWon(finishData);
         if (gameState == Common.GameWinState.Win)
         {
-            GameManager.Instance.OnWinGame();
+            GameManager.Instance.OnWinGame(finishData);
         }
     }
-    
+
     #region Singleton
 
     public bool isDontDestroyOnLoad = false;

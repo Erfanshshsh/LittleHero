@@ -7,12 +7,12 @@ public class FindFriendGameHandler : GameHandler
     private int _wrongCounter;
     private int _rightCounter;
     private FindFriendConfig.FriendType sampleFriendType;
-   
+    FindFriendConfig currentConfig;
     // public Image friendImage;
     private void Start()
     {
         
-        var currentConfig = GameManager.Instance.currentLevelConfig as FindFriendConfig;
+        currentConfig = GameManager.Instance.currentLevelConfig as FindFriendConfig;
         _zoneDConfig = currentConfig.GetConfig(GameManager.Instance.currentLocation,
             GameManager.Instance.currentDifficulty);
         var findFriendView = UIManager.Instance.ShowFindFriendView();
@@ -53,11 +53,11 @@ public class FindFriendGameHandler : GameHandler
         }
 
         var finishData = new Common.LevelFinishData(_rightCounter, _wrongCounter,
-            (int)Timer.Instance.timeRemaining, gameState);
+            (int)Timer.Instance.timeRemaining, gameState, checkBtnCount, currentConfig.gameName);
         UIManager.Instance.ShowYouWon(finishData);
         if (gameState == Common.GameWinState.Win)
         {
-            GameManager.Instance.OnWinGame();
+            GameManager.Instance.OnWinGame(finishData);
         }
     }
 

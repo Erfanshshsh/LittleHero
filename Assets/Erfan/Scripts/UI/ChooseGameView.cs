@@ -25,7 +25,8 @@ public class ChooseGameView : View
         {
             int sceneIndex = i; // Capture the index correctly in the closure
             var gameSelectionBtn = Buttons[i].GetComponent<GameSelectionButton>();
-            Buttons[i].onClick.AddListener(() => OnButtonClick(sceneIndex, gameSelectionBtn.levelConfig));
+            Buttons[i].onClick.AddListener(() => 
+                OnButtonClick(sceneIndex, LevelConfigDatabase.Instance.ConfigDictionary[gameSelectionBtn.gameType]));
         }
 
 
@@ -67,7 +68,7 @@ public class ChooseGameView : View
     private void OnClickCloseButton()
     {
         AnimateDown();
-        MaleCharacter.Instance.EnableController();
+        GameManager.Instance.EnableController();
     }
 
 public void OnClickDifficultyButton(Common.Difficulty difficulty)

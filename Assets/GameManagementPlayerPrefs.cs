@@ -17,6 +17,15 @@ namespace Joyixir.GameManager.Utils
         }
 
 
+
+        public static void SetLevelData(string key, string levelData)
+        {
+            PlayerPrefs.SetString(key, levelData);
+        }
+        public static string GetLevelData(string key)
+        {
+            return PlayerPrefs.GetString(key);
+        }
         
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using Cysharp.Threading.Tasks;
+using Joyixir.GameManager.Utils;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -39,23 +40,29 @@ public class GameManager : Singleton<GameManager>
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         currentGameHandler = FindObjectsByType<GameHandler>(FindObjectsSortMode.None)[0];
+    }
+
+    private void OnDisable()
+    {
         SceneManager.sceneLoaded -= OnSceneLoaded;
+
     }
 
     public async UniTaskVoid OnFinishGameAsync(Common.LevelFinishData finishData = null)
     {
-        GameProgressManager.MarkGamePlayed(gameIndex, currentLocation, currentDifficulty);
+        GameProgressManager.MarkGamePlayed(gameIndex, currentLocation, currentDifficulty, finishData);
         await UniTask.Delay(1000);
         UIManager.Instance.ShowYouWon(finishData);
     }
 
-    public void OnWinGame()
+    public void OnWinGame(Common.LevelFinishData finishData)
     {
         Timer.Instance.enabled = false;
-        GameProgressManager.MarkGamePlayed(gameIndex, currentLocation, currentDifficulty);
+        GameProgressManager.MarkGamePlayed(gameIndex, currentLocation, currentDifficulty, finishData);
         if (GameProgressManager.AreAllGamesCompleted(currentLocation, currentDifficulty))
         {
             GameProgressManager.DeleteZoneStarted(currentDifficulty);
+            UIManager.Instance.ShowStatisticsView(currentDifficulty, currentLocation);
         }
     }
 
@@ -69,5 +76,40 @@ public class GameManager : Singleton<GameManager>
     public void RestartCurrentLevel()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void PlayNextLevel()
+    {
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        var sceneCount = SceneManager.sceneCountInBuildSettings;
+        gameIndex++;
+        if (currentSceneIndex + 1 < sceneCount)
+        {
+            LoadScene(currentSceneIndex + 1);
+        }
+
+    }
+    
+    public void DisableController()
+    {
+        if (MaleCharacter.Instance != null)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            MaleCharacter.Instance.GetComponent<movement>().enabled = false;
+            MaleCharacter.Instance.GetComponent<Animator>().SetBool("MoveFWD", false);
+        }
+    }
+    
+    public void EnableController()
+    {
+        if (MaleCharacter.Instance != null)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+            MaleCharacter.Instance.GetComponent<movement>().enabled = true;
+            MaleCharacter.Instance.GetComponent<Animator>().SetBool("MoveFWD", true);
+        }
+
     }
 }

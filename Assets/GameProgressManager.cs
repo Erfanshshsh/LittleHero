@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Joyixir.GameManager.Utils;
 using UnityEngine;
 
 public static class GameProgressManager
@@ -8,9 +9,11 @@ public static class GameProgressManager
     private static List<Common.Location> locations = new List<Common.Location>
         { Common.Location.School, Common.Location.Hospital, Common.Location.AmusementPark };
 
-    public static void MarkGamePlayed(int gameIndex, Common.Location location, Common.Difficulty difficulty)
+    public static void MarkGamePlayed(int gameIndex, Common.Location location, 
+        Common.Difficulty difficulty, Common.LevelFinishData finishData)
     {
-        string key = GetKey(gameIndex, location, difficulty);
+        string key = GetKey(gameIndex, location, difficulty );
+        GameManagementPlayerPrefs.SetLevelData(key+"_Data",JsonUtility.ToJson(finishData));
         PlayerPrefs.SetInt(key, 1);
         PlayerPrefs.Save();
     }

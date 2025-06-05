@@ -13,10 +13,10 @@ public class ChooseSimilarGameHandler : GameHandler
     private int wrongs;
 
     private FindSimilarConfig.ZoneDifficultyConfig _zoneDConfig;
-
+    private FindSimilarConfig currentConfig;
     private void Start()
     {
-        var currentConfig = GameManager.Instance.currentLevelConfig as FindSimilarConfig;
+        currentConfig = GameManager.Instance.currentLevelConfig as FindSimilarConfig;
         _zoneDConfig = currentConfig.GetConfig(GameManager.Instance.currentLocation,
             GameManager.Instance.currentDifficulty);
 
@@ -76,7 +76,7 @@ public class ChooseSimilarGameHandler : GameHandler
         gameState = rights >= wrongs ? Common.GameWinState.Win : Common.GameWinState.Loose;
         
         var finishData = new Common.LevelFinishData(rights, wrongs,
-            (int)Timer.Instance.timeRemaining, gameState);
+            (int)Timer.Instance.timeRemaining, gameState, checkBtnCount, currentConfig.gameName);
         GameManager.Instance.OnFinishGameAsync(finishData);
     }
     
@@ -92,11 +92,11 @@ public class ChooseSimilarGameHandler : GameHandler
         }
 
         var finishData = new Common.LevelFinishData(rights, wrongs,
-            (int)Timer.Instance.timeRemaining, gameState);
+            (int)Timer.Instance.timeRemaining, gameState, checkBtnCount, currentConfig.gameName);
         UIManager.Instance.ShowYouWon(finishData);
         if (gameState == Common.GameWinState.Win)
         {
-            GameManager.Instance.OnWinGame();
+            GameManager.Instance.OnWinGame(finishData);
         }
     }
     

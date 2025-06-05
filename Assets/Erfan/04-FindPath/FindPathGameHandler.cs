@@ -13,10 +13,10 @@ public class FindPathGameHandler : GameHandler
     public int overallCounter;
     private List<Butterfly> _butterflyList = new List<Butterfly>();
     private FindPathConfig.ZoneDifficultyConfig _zoneDConfig;
-
+    private FindPathConfig currentConfig;
     private void Start()
     {
-        var currentConfig = GameManager.Instance.currentLevelConfig as FindPathConfig;
+        currentConfig = GameManager.Instance.currentLevelConfig as FindPathConfig;
         _zoneDConfig = currentConfig.GetConfig(GameManager.Instance.currentLocation,
             GameManager.Instance.currentDifficulty);
 
@@ -85,7 +85,7 @@ public class FindPathGameHandler : GameHandler
         var gameState = Common.GameWinState.Neutral;
         gameState = rightScore >= wrongScore ? Common.GameWinState.Win : Common.GameWinState.Loose;
         var finishData = new Common.LevelFinishData(rightScore, wrongScore,
-            (int)Timer.Instance.timeRemaining, gameState);
+            (int)Timer.Instance.timeRemaining, gameState, checkBtnCount, currentConfig.gameName);
         GameManager.Instance.OnFinishGameAsync(finishData);
     }
 
@@ -105,11 +105,11 @@ public class FindPathGameHandler : GameHandler
 
 
         var finishData = new Common.LevelFinishData(rightScore, wrongScore,
-            (int)Timer.Instance.timeRemaining, gameState);
+            (int)Timer.Instance.timeRemaining, gameState, checkBtnCount, currentConfig.gameName);
         UIManager.Instance.ShowYouWon(finishData);
         if (gameState == Common.GameWinState.Win)
         {
-            GameManager.Instance.OnWinGame();
+            GameManager.Instance.OnWinGame(finishData);
         }
     }
 

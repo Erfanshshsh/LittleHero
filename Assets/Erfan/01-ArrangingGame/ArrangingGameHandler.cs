@@ -9,10 +9,10 @@ public class ArrangingGameHandler : GameHandler
     public int wrongInBoxCount = 0;
     private List<DragObject> items = new List<DragObject>();
     private ArrangingGameConfig.ZoneDifficultyConfig _zoneDConfig;
-
+    private ArrangingGameConfig currentConfig;
     private void Start()
     {
-        var currentConfig = GameManager.Instance.currentLevelConfig as ArrangingGameConfig;
+        currentConfig = GameManager.Instance.currentLevelConfig as ArrangingGameConfig;
         _zoneDConfig = currentConfig.GetConfig(GameManager.Instance.currentLocation,
             GameManager.Instance.currentDifficulty);
         items = _zoneDConfig.items;
@@ -43,7 +43,7 @@ public class ArrangingGameHandler : GameHandler
     {
         await UniTask.DelayFrame(30);
         var finishData = new Common.LevelFinishData(inBoxCount, 0,
-            (int)Timer.Instance.timeRemaining, Common.GameWinState.Win);
+            (int)Timer.Instance.timeRemaining, Common.GameWinState.Win, checkBtnCount, currentConfig.gameName);
         GameManager.Instance.OnFinishGameAsync(finishData);
     }
 
@@ -53,15 +53,15 @@ public class ArrangingGameHandler : GameHandler
         var gameState = Common.GameWinState.Neutral;
         if (inBoxCount >= items.Count  && wrongInBoxCount <= 0)
         {
-            gameState = Common.GameWinState.Win;
+            gameState = Common.GameWinState.Win;    
         }
 
         var finishData = new Common.LevelFinishData(inBoxCount, wrongInBoxCount,
-            (int)Timer.Instance.timeRemaining, gameState);
+            (int)Timer.Instance.timeRemaining, gameState,checkBtnCount, currentConfig.gameName);
         UIManager.Instance.ShowYouWon(finishData);
         if (gameState == Common.GameWinState.Win)
         {
-            GameManager.Instance.OnWinGame();
+            GameManager.Instance.OnWinGame(finishData);
         }
     }
 

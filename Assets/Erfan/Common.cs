@@ -1,7 +1,4 @@
 ﻿using System;
-using RTLTMPro;
-using UnityEditor;
-using UnityEngine;
 
 public class Common
 {
@@ -21,7 +18,6 @@ public class Common
         Sports,
         Nature,
         Animals
-        
     }
     
     
@@ -45,13 +41,18 @@ public class Common
         public int WrongCount;
         public int TimeCount;
         public GameWinState gameWinState;
+        public int checkButtonCount;
+        public string gameName;
 
-        public LevelFinishData(int rightCount, int wrongCount, int timeCount, GameWinState mGameWinState)
+        public LevelFinishData(int rightCount, int wrongCount, int timeCount, 
+            GameWinState mGameWinState, int mCheckButtonCount, string mGameName)
         {
             RightCount = rightCount;
             WrongCount = wrongCount;
             TimeCount = timeCount;
             gameWinState = mGameWinState;
+            checkButtonCount = mCheckButtonCount;
+            gameName = mGameName;
         }
     }
     
@@ -69,7 +70,23 @@ public class Common
     }
     
     
-
+    public enum GameType
+    {
+        ArrangingGame,
+        FindDifferenceGame,
+        ChooseSimillar,
+        FindPath,
+        Typo,
+        Scale,
+        ChooseNumbers,
+        FindFriend
+    }
+    [Serializable]
+    public struct GameTypeConfigPair
+    {
+        public GameType gameType;
+        public LevelConfig config;
+    }
     
 
 }
