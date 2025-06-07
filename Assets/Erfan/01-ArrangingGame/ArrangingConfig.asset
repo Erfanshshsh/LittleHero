@@ -23,6 +23,9 @@ MonoBehaviour:
     - {fileID: 83921349069057300, guid: 0125367fa9edd48c796480c24eef7a6a, type: 3}
     - {fileID: 1515445533536819745, guid: cf8cafb1ce3777f4286e7d2dc680b5e9, type: 3}
     - {fileID: 3079997681915067484, guid: 106db0498aa0841858844b03cd6efeeb, type: 3}
+    - {fileID: 1529722438483533332, guid: 8e07b515f75cc7842b784d18ff0ba849, type: 3}
+    - {fileID: 1529722438483533332, guid: 9de2d688c869ae84db9426f792a1b39a, type: 3}
+    - {fileID: 1529722438483533332, guid: b79edd2e2bee55a40a40d03e306148bb, type: 3}
   - location: 0
     difficulty: 1
     items:

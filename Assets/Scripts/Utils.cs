@@ -216,15 +216,16 @@ public class Utils : MonoBehaviour {
 
 	//读取本地Txt文件
 	public static string LoadFile(string filePath) {
-		string url = Application.streamingAssetsPath + "/" + filePath;
-		#if UNITY_EDITOR
-		return File.ReadAllText(url);
-		#elif UNITY_ANDROID
-		WWW www = new WWW(url);
-		while (!www.isDone) { }
-		return www.text;
-		//return www.text.Split(new string[]{"\r\n"}, System.StringSplitOptions.None);
-		#endif
+		// string url = Application.streamingAssetsPath + "/" + filePath;
+		// #if UNITY_EDITOR
+		// return File.ReadAllText(url);
+		// #elif UNITY_ANDROID
+		// WWW www = new WWW(url);
+		// while (!www.isDone) { }
+		// return www.text;
+		// //return www.text.Split(new string[]{"\r\n"}, System.StringSplitOptions.None);
+		// #endif
+		return "";
 	}
 
 	//读取txt中的信息

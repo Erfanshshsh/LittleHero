@@ -25,3 +25,51 @@ MonoBehaviour:
       type: 3}
     sampleScaleItem: {fileID: 5989911592685684895, guid: a90eff8ab5955934790a5e5de6382363,
       type: 3}
+  - location: 0
+    difficulty: 1
+    prefab: {fileID: 6095666623678169270, guid: 421ba6ebb82104f4f92adac8a4d433cf,
+      type: 3}
+    sampleScaleItem: {fileID: 5989911592685684895, guid: a90eff8ab5955934790a5e5de6382363,
+      type: 3}
+  - location: 0
+    difficulty: 2
+    prefab: {fileID: 6095666623678169270, guid: 421ba6ebb82104f4f92adac8a4d433cf,
+      type: 3}
+    sampleScaleItem: {fileID: 5989911592685684895, guid: a90eff8ab5955934790a5e5de6382363,
+      type: 3}
+  - location: 1
+    difficulty: 0
+    prefab: {fileID: 6095666623678169270, guid: 421ba6ebb82104f4f92adac8a4d433cf,
+      type: 3}
+    sampleScaleItem: {fileID: 5989911592685684895, guid: a90eff8ab5955934790a5e5de6382363,
+      type: 3}
+  - location: 1
+    difficulty: 1
+    prefab: {fileID: 6095666623678169270, guid: 421ba6ebb82104f4f92adac8a4d433cf,
+      type: 3}
+    sampleScaleItem: {fileID: 5989911592685684895, guid: a90eff8ab5955934790a5e5de6382363,
+      type: 3}
+  - location: 1
+    difficulty: 2
+    prefab: {fileID: 6095666623678169270, guid: 421ba6ebb82104f4f92adac8a4d433cf,
+      type: 3}
+    sampleScaleItem: {fileID: 5989911592685684895, guid: a90eff8ab5955934790a5e5de6382363,
+      type: 3}
+  - location: 2
+    difficulty: 0
+    prefab: {fileID: 6095666623678169270, guid: 421ba6ebb82104f4f92adac8a4d433cf,
+      type: 3}
+    sampleScaleItem: {fileID: 5989911592685684895, guid: a90eff8ab5955934790a5e5de6382363,
+      type: 3}
+  - location: 2
+    difficulty: 1
+    prefab: {fileID: 6095666623678169270, guid: 421ba6ebb82104f4f92adac8a4d433cf,
+      type: 3}
+    sampleScaleItem: {fileID: 5989911592685684895, guid: a90eff8ab5955934790a5e5de6382363,
+      type: 3}
+  - location: 2
+    difficulty: 2
+    prefab: {fileID: 6095666623678169270, guid: 421ba6ebb82104f4f92adac8a4d433cf,
+      type: 3}
+    sampleScaleItem: {fileID: 5989911592685684895, guid: a90eff8ab5955934790a5e5de6382363,
+      type: 3}

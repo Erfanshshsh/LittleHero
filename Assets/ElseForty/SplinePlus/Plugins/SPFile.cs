@@ -231,10 +231,10 @@ public class SPFile
         sourceSPData.Selections._NodeIndex = 0;
         sourceSPData.UpdateAllBranches();
 
-#if UNITY_EDITOR
-        UnityEditor.Undo.DestroyObjectImmediate(externelSPData.SplinePlus.gameObject);
-#else
-        Object.Destroy(externelSPData.SplinePlus.gameObject);
-#endif
+// #if UNITY_EDITOR
+//         UnityEditor.Undo.DestroyObjectImmediate(externelSPData.SplinePlus.gameObject);
+// #else
+//         Object.Destroy(externelSPData.SplinePlus.gameObject);
+// #endif
     }
 }
