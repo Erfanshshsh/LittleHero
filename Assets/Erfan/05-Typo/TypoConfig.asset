@@ -20,36 +20,37 @@ MonoBehaviour:
   configurations:
   - location: 0
     difficulty: 0
-    typoString: {fileID: 3712685445780009904, guid: 25161d5e336a72b41b84693b707b9569,
+    typoString: {fileID: 2063262761037190050, guid: 39d500d9b8c1e484eafb2a544c3faffa,
       type: 3}
   - location: 0
     difficulty: 1
-    typoString: {fileID: 3712685445780009904, guid: 25161d5e336a72b41b84693b707b9569,
+    typoString: {fileID: 2063262761037190050, guid: 0fe1f9de93f2ded40a4ac20d848b6817,
       type: 3}
   - location: 0
     difficulty: 2
-    typoString: {fileID: 3712685445780009904, guid: 25161d5e336a72b41b84693b707b9569,
+    typoString: {fileID: 2063262761037190050, guid: f6edbe191fd2bd1478405a268f2a7ad9,
       type: 3}
   - location: 1
     difficulty: 0
-    typoString: {fileID: 0}
+    typoString: {fileID: 2063262761037190050, guid: ab4ba28ec0a2df749b03150b6277de83,
+      type: 3}
   - location: 1
     difficulty: 1
-    typoString: {fileID: 3712685445780009904, guid: 25161d5e336a72b41b84693b707b9569,
+    typoString: {fileID: 2063262761037190050, guid: 1f6a1439d8458884ca888254574085ed,
       type: 3}
   - location: 1
     difficulty: 2
-    typoString: {fileID: 3712685445780009904, guid: 25161d5e336a72b41b84693b707b9569,
+    typoString: {fileID: 2063262761037190050, guid: f4a24bd205f7b1042b62802df09e2793,
       type: 3}
   - location: 2
     difficulty: 0
-    typoString: {fileID: 3712685445780009904, guid: 25161d5e336a72b41b84693b707b9569,
+    typoString: {fileID: 2063262761037190050, guid: f9ea8ef3f11040349a5b22f317d5e46c,
       type: 3}
   - location: 2
     difficulty: 1
-    typoString: {fileID: 3712685445780009904, guid: 25161d5e336a72b41b84693b707b9569,
+    typoString: {fileID: 2063262761037190050, guid: 90dc7226e874c2248b44927805e1b54a,
       type: 3}
   - location: 2
     difficulty: 2
-    typoString: {fileID: 3712685445780009904, guid: 25161d5e336a72b41b84693b707b9569,
+    typoString: {fileID: 2063262761037190050, guid: 55e34ed6871accc4ea64c5a0ba237542,
       type: 3}

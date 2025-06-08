@@ -13,6 +13,8 @@ public class TypoItem : MonoBehaviour
     public UnityEvent<bool> onClickButton;
     [ShowIf("isWrong")]
     public string rightText;
+
+    [ShowIf("isWrong")] public Image dotCoverImage;
     private void OnEnable()
     {
         button.onClick.AddListener(OnClickButton);
@@ -29,6 +31,7 @@ public class TypoItem : MonoBehaviour
         if (isWrong)
         {
             text.text = rightText;
+            dotCoverImage.gameObject.SetActive(false);
             text.color = Color.green;
         }
 
